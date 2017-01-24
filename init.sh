@@ -33,6 +33,7 @@ sudo apt-get -y install dnsmasq
 sudo apt-get -y install ifstat
 
 # Python Module
+pip install bluez
 
 # Abschluss
 sudo apt-get -y autoremove
