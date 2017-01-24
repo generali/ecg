@@ -17,7 +17,9 @@ sudo apt-get -y install iftop
 # Bluetooth
 sudo apt-get -y install bluetooth bluez
 # Python
-sudo apt-get -y install python-gobject python-gobject-2 python-bluez python-dev python-rpi.gpio python-requests python-smbus i2c-tools
+sudo apt-get -y install python-gobject python-gobject-2 python-bluez python-dev 
+sudo apt-get -y install python-rpi.gpio python-requests python-smbus i2c-tools
+sudo apt-get -y install build-essential libbluetooth-dev
 # Python Installer
 sudo apt-get -y install python-pip python3-pip
 # Python RRDtool
@@ -33,7 +35,7 @@ sudo apt-get -y install dnsmasq
 sudo apt-get -y install ifstat
 
 # Python Module
-#pip install bluez
+sudo pip install pybluez
 
 # Abschluss
 sudo apt-get -y autoremove
