@@ -9,9 +9,9 @@ SLEEP_LOOP=30
 #THIS_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2`
 
 DISPLAY_ECHO=0
-while [[$# -gt 1]]
+for key in "$@"
 	do
-	key="$1"
+	#key="$1"
 
 	case $key in
 	-display)
@@ -19,8 +19,8 @@ while [[$# -gt 1]]
 	;;
 	*)
 	;;
-esac
-
+	esac
+done
 
 while true
 do
@@ -47,6 +47,7 @@ do
 	# sdcard_free (%)
 	SDCARD_FREE=`df -h | grep mmcb | awk '{print $5}' | cut -d'%' -f 1`
 	[[ $DISPLAY_ECHO == 1 ]] && echo "sd free: $SDCARD_FREE"
+
 
 	URL=`cat /home/pi/circonus/rpi_ecg1_url.txt`
 
