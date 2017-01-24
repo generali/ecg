@@ -62,7 +62,16 @@ do
 #         }'
 
         curl -X PUT --insecure "$URL" --data '{
-            "'$THIS_SYSTEM.$THIS_SERIAL.RPI.cpu'": "'$CPU'"
-          }'
+            "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.cpu'": "'$CPU'",
+            "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.mem_free'": "'$MEM_FREE'",
+	    "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.eth0_in'": "'$ETH0_IN'",
+	    "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.eth0_out'": "'$ETH0_OUT'",
+	    "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.wlan0_in'": "'$WLAN0_IN'",
+	    "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.wlan0_out'": "'$WLAN0_OUT'",
+	    "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.sdcard_free'": "'$SDCARD_FREE'",
+	    "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.voltage'": "'$RPI_VOLTAGE'"
+         }'
+
+
         sleep $SLEEP_LOOP
 done
