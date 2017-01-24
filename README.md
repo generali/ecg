@@ -57,8 +57,25 @@ Aufbau des Szenarios:
 7. In einer späteren Ausbaustufe kann die (zentrale) Datenvisualisierung mit eigenen Mitteln umgesetzt werden, jedoch sollte bis dahin absehbar sein, dass der Kern der Aufgabe, die Erfassung der Messdaten und die Eskalationslogik, funktionieren und zum Zieltermin umgesetzt werden können.
 8. Die Eskaltionslogik ist wird auf Grund der Komplexitöt gesondert beschrieben (ausstehend).
 
-# MERKER
+Datenerfassung:
+=======================
+- Daten werden auf dem System durch ein Programm ermittelt
+- die Daten werden per JSON (REST) an einen zentralen Server gemeldet
+- die Datensüpeicherung/Visualisierung erfolgt (bis auf Weiteres) durch den zentralen Dienst
+- eine Änderung auf einen anderen, vielleicht auch lokalen Dienst, kann zu einem späteren Zeitpunkt erfolgen
+
+Visualisierung:
+=======================
+Die Visualisierung erfolgt im Rahmen der Entwicklung durch Circonus, einem Anbieter für IoT-Dashboards. Im Rahmen der Entwicklung können bis zu 500 Metriken kostenfrei erfasst und verarbeitet werden. Für historisierte Daten wird eine weitere Metrik gezählt, so dass 250 bis 500 Mitriken verarbeitet werden können.
+
+# eingerichtete Dashboards (schreibgeschützt, da Zugang über Github öffentlich)
+System ECG1: https://share.circonus.com/shared/dashboards/e190a4ac-4fe8-4956-cd67-f4e88f032faa/S4HV1o
+Sensoren ECG1: https://share.circonus.com/shared/dashboards/e190a4ac-4fe8-4956-cd67-f4e88f032faa/S4HV1o
+
+MERKER
+=======================
 Ab der Konfiguration (und dem Reboot) ist der Raspberry unter "ssh -p 22 pi@_Name_des_Systems_" im lokalen Netzwerk erreichbar (hierfür idealerweise DHCP im Router aktivieren und den Raspebrry per Netzwerkkabel anschließen)
 
-# Wichtige Tipps
+Wichtige Tipps
+=======================
 Die GPIO des Reaspberry sind unter unterschiedlichen Namen anzusprechen. In der Regel wird für die hier abgelegten Beispiele die  BCM-Nomenklatur genutzt.
