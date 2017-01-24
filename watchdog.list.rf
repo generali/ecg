@@ -9,9 +9,9 @@
 # - zu beendende Prozesse mit '-' beginnen 
 # - zu startende Prozesse nur mit Namen beginnen
 #
--/home/pi/ecg1/06_temp_analog.py
-/home/pi/ecg1/07_system.sh
-/home/pi/ecg1/07_system_online.sh
--/home/pi/ecg1/08_gas.py
--/home/pi/ecg1/05_dashbutton.py
--/home/pi/ecg1/03_pressuremat.py
+/home/pi/ecg/temp_analog.py
+/home/pi/ecg/rf/system.sh
+/home/pi/ecg/rf/system_online.sh
+-/home/pi/ecg/rf/gas.py
+-/home/pi/ecg/rf/dashbutton.py
+-/home/pi/ecg/rf/pressuremat.py
