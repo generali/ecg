@@ -45,7 +45,7 @@ Anleitung:
    - Reboot durchführen
 
 # MERKER
-Ab der Konfiguration (und dem Reboot) ist der Raspberry unter "ssh -p 22 pi@<Name des Systems>" im lokalen Netzwerk erreichbar (hierfür idealerweise DHCP im Router aktivieren und den Raspebrry per Netzwerkkabel anschließen)
+Ab der Konfiguration (und dem Reboot) ist der Raspberry unter "ssh -p 22 pi@_Name_des_Systems_" im lokalen Netzwerk erreichbar (hierfür idealerweise DHCP im Router aktivieren und den Raspebrry per Netzwerkkabel anschließen)
 
 # Wichtige Tipps
 Die GPIO des Reaspberry sind unter unterschiedlichen Namen anzusprechen. In der Regel wird für die hier abgelegten Beispiele die  BCM-Nomenklatur genutzt.
