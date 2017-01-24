@@ -5,8 +5,8 @@ SLEEP_LOOP=30
 
 # #################################################
 
-#THIS_SYSTEM=`hostname`
-#THIS_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2`
+THIS_SYSTEM=`hostname`
+THIS_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2`
 
 DISPLAY_ECHO=0
 for key in "$@"
