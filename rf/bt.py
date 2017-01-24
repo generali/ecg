@@ -1,13 +1,21 @@
 #!/usr/bin/env python
 
+#
+# WARNING: never rename file to "bluetooth.py" or this script will fail because of the import
+# command, which will try to implementi itself and report an "AttributeError"
+#
+
+
 import bluetooth
 import time
 import sys
+import requests
+import ssl
 
 bt = ['CC:20:E8:64:0A:7F', '34:4D:AA:AD:7F:C0']
 # You can hardcode the desired device ID here as a string to skip the discovery stage
 addr = "CC:20:E8:64:0A:7F"
-varWaitTime = 30
+varWaitTime = 10
 
 # #################################################
 
@@ -23,8 +31,8 @@ if ARG_DISPLAY == 1:
 	print "Ausgabe:"
 
 
-def UpdateStatus():
-  try:
+def UpdateStatus(status):
+#  try:
      	context = ssl._create_unverified_context()
 
      	url = open('/home/pi/circonus/ecg1_sensors_url.txt', 'r').read()
@@ -41,8 +49,8 @@ def UpdateStatus():
 	req.add_header('Content-Type', 'application/json')
 
   	response = urllib2.urlopen(req, json.dumps(data), context=context)
-  except:
-	pass
+#  except:
+#	pass
 			
 while True:
     # Try to gather information from the desired device.
@@ -52,8 +60,11 @@ while True:
     services = bluetooth.find_service(address=addr)
     # Flip the LED pin on or off depending on whether the device is nearby
     if state == None and services == []:
-        print("No device detected in range...")
+        if ARG_DISPLAY == 1:
+        	print("No device detected in range...")
     else:
-        print("Device detected!")
+	if ARG_DISPLAY == 1:
+        	print("Device detected!")
+	UpdateStatus(1)
     # Arbitrary wait time
-    time.sleep(1)
+    time.sleep(varWaitTime)

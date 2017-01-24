@@ -9,6 +9,7 @@
 # - zu beendende Prozesse mit '-' beginnen 
 # - zu startende Prozesse nur mit Namen beginnen
 #
+/home/pi/ecg/rf/bt.py
 /home/pi/ecg/temp_analog.py
 /home/pi/ecg/rf/system.sh
 /home/pi/ecg/rf/system_online.sh
