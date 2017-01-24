@@ -24,7 +24,7 @@ Anleitung:
     
 2. Github clonen
   - cd ~
-  - git clone git:://github.com/generali/ecg
+  - git clone https://github.com/generali/ecg.git
   - cd ecg
   
   Done :)
