@@ -25,6 +25,7 @@ while [[$# -gt 1]]
 	;;
 	-file)
 		WATCHDOG_FILE=`echo $key | cut -d':' -f 2
+		echo "Use watchdog file '$WATCHDOG_FILE'"
 	;;
 	*)	
 	;;
@@ -39,18 +40,18 @@ while read WATCHDOG_PROCESS; do
 
 		if [[ $WATCHDOG_PROCESS == -* ]]; then
 			WATCHDOG_KILL=`echo -n "$WATCHDOG_PROCESS" | tail -c +2 | sed -e 's/^[[:space:]]*//'`
-			[[ $DISPLAY_ECHO == 1]] && echo -n "Beende Prozess '$WATCHDOG_KILL'..."
+			[[ $DISPLAY_ECHO == 1]] && echo -n "Terminate Process '$WATCHDOG_KILL'..."
 			sudo pkill -f $WATCHDOG_KILL
 			[[ $DISPLAY_ECHO == 1]] && echo "OK"
 		else
 			if [[ !  -z  $WATCHDOG_PROCESS  ]]; then
-			    	[[ $DISPLAY_ECHO == 1]] && echo -n "Prüfe Prozess '$WATCHDOG_PROCESS'..."
+			    	[[ $DISPLAY_ECHO == 1]] && echo -n "Check running process '$WATCHDOG_PROCESS'..."
 				COUNT=`ps -ef | grep "$WATCHDOG_PROCESS" | grep -v "grep" | wc -l`
 				if [ $COUNT -eq 0 ]; then
-					[[ $DISPLAY_ECHO == 1]] && echo "nicht gefunden!"
+					[[ $DISPLAY_ECHO == 1]] && echo "not found!"
 					$($WATCHDOG_PROCESS) &
 				else
-					[[ $DISPLAY_ECHO == 1]] && echo "gefunden. OK"
+					[[ $DISPLAY_ECHO == 1]] && echo "found. OK"
 				fi
 			fi
 		fi
