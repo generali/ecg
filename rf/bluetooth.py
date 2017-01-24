@@ -5,7 +5,7 @@ import time
 import sys
 
 bt = ['CC:20:E8:64:0A:7F', '34:4D:AA:AD:7F:C0']
-waittime = 30
+varWaitTime = 30
 
 
 ARG_DISPLAY=0
@@ -60,7 +60,8 @@ try:
 		print "Status: 0 (MAC ",bt[i]," wurde nicht gefunden (LED=rot)"
           doublecheck = 1
 	
-   Sleep(waittime)
+   time.sleep(varWaitTime)
+
 except KeyboardInterrupt:
   destroy()
 
