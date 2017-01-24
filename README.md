@@ -1,6 +1,6 @@
 # ElderyCare/Guard
 
-In diesem Repository werden alle projektrelevanten Dateien der mitwirkenden Kollegen zentrale verwaltet. Weitere Informationen sind im Wiki unter https://github.com/generali/ecg/wiki dokumentiert.
+In diesem Repository werden alle projektrelevanten Dateien der mitwirkenden Kollegen zentrale verwaltet. Weitere Informationen sind im Wiki unter https://github.com/generali/ecg/wiki dokumentiert. Zum Erzeugen neuer Issues oder dem Ändern eines betsehenden Issues bitte die Projektseite (https://github.com/generali/ecg/projects/1) nutzen.
 
 ---
 
