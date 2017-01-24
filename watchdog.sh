@@ -10,7 +10,9 @@ echo ""
 echo "Arguments:"
 echo "$THISSCRIPT <-file:listfile> <-display>"
 echo ""
-
+echo "-file.   : different list file"
+echo "-display : echo output to console"
+echo ""
 
 while read WATCHDOG_PROCESS; do
 	if [[ "$WATCHDOG_PROCESS" != "#"* ]];then
