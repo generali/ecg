@@ -7,7 +7,7 @@ In diesem Repository werden alle projektrelevanten Dateien der mitwirkenden Koll
 Dokumentation:
 =======================
 Sensoren:
-- https://www.sunfounder.com/learn/category/Sensor-Kit-v1-0-for-Raspberry-Pi.html
+- https://www.sunfounder.com/learn/category/Sensor-Kit-v1-0-for-Raspberry-Pi.html (die korrekten Beispiele, die sich auf das Handbuch beziehen, sind unterhalb des Ordners ./docu/sunfounder/ in diesem Repository abgelegt)
 
 Schaltpläne, Belegungspläne:
 - https://www.bitblokes.de/wp-content/uploads/2016/01/raspberry_pi_gpio-shutdown-pins.png
