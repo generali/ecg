@@ -47,20 +47,21 @@ def UpdateStatus():
 try:
   while True:
     for i in range (len(bt)):
-      Led(0)
       doublecheck = 0
       while doublecheck < 1:
+	print("Scanning device: %s" % bt[i])
         result = bluetooth.lookup_name(bt[i], timeout=3)
         if (result != None):
           # bluetooth device in range
           if ARG_DISPLAY == 1:
 		print "Status 1: MAC ",bt[i]," wurde gefunden. Taster freigegeben (LED=blau)"
-        else:
+        	UpdateStatus()
+	else:
           if ARG_DISPLAY == 1:
 		print "Status: 0 (MAC ",bt[i]," wurde nicht gefunden (LED=rot)"
           doublecheck = 1
 	
-   time.sleep(varWaitTime)
+    time.sleep(varWaitTime)
 
 except KeyboardInterrupt:
   destroy()
