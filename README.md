@@ -1,6 +1,6 @@
 # ElderyCare/Guard
 
-In diesem Repository werden alle projektrelevanten Dateien der mitwirkenden Kollegen zentrale verwaltet.
+In diesem Repository werden alle projektrelevanten Dateien der mitwirkenden Kollegen zentrale verwaltet. Weitere Informationen sind im Wiki unter https://github.com/generali/ecg/wiki dokumentiert.
 
 ---
 
@@ -46,19 +46,10 @@ Um im späteren Verlauf Ressourcen in dieses Repository übertragen zu könnnen,
           - Rene: ecg1
    - Reboot durchführen
 
-Aufbau des Szenarios:
+MERKER
 =======================
-1. Die Sensoren ermitteln durch selbstentwickelte Programme die Messwerte der Sensoren.
-2. Die ermittelten Messwerte werden in einem ersten Schritt an der Konsole ausgegeben oder in einer lokalen Datenablage vorgehalten. Da die Daten später mit anderen Sensordaten (ggf. auch anderen Rasperrys) zusammengeführt werden können, ist eine properitäre Datenablage zu vermeiden.
-3. Eine Meldung an einen zentralen Service (z.B. per REST über JSON) ist zu bevorzugen, da so eine Entkopplung der Datenerhebung und -verarbeitunf und - haltung erfolgen kann. Damit können die einzelnen Schritte als Microservices abgebildet werden.
-4. Die Visulaisierung der Daten kann, sofern man keine entsprechenden Systeme oder Knowhow aufweist, ein zeitraubendes Thema sein, daher wird eine erste Visualisierung mit einem bestehenden System vorgeschlagen. Hierzu wird ein IoT-Dashboard genutzt, welches die messadaten entgegennimmt.
-5. Werden verschiedene Messwerte (auch von unterschiedlichen Raspberrys) erfasst, ist es wichtig, dass die Daten unterschiedlich benannte und übergeben werden. Hierzu wird vorgeschlagen, die Messwerte nach dem Schema #Name des Raspberry-Systems#.#eindeutiger Name des Messwerts# zu benennen (Beispiel: ecg1.Temperatur1).
-6. Eine Meldung der Messwerte an einen zentralen Service erfordert eine Internet-Verbindung, so dass bei nichtvorhandener Verbindung ggf. vorrangig die Darstellung und Speicherung auf dem lokalen System erforderlich ist. Dennoch sollte das Verfahren zur Übertragung an ein Drittsystem vorgesehen oder sogar schon implementiert werden - zum Beispiel könnte über Argumente, die dem Prgramm/Skript übergeben werden, die Steuerung der Datenweitergabe gehandhabt werden.
-7. In einer späteren Ausbaustufe kann die (zentrale) Datenvisualisierung mit eigenen Mitteln umgesetzt werden, jedoch sollte bis dahin absehbar sein, dass der Kern der Aufgabe, die Erfassung der Messdaten und die Eskalationslogik, funktionieren und zum Zieltermin umgesetzt werden können.
-8. Die Eskaltionslogik ist wird auf Grund der Komplexitöt gesondert beschrieben (ausstehend).
-
-# MERKER
 Ab der Konfiguration (und dem Reboot) ist der Raspberry unter "ssh -p 22 pi@_Name_des_Systems_" im lokalen Netzwerk erreichbar (hierfür idealerweise DHCP im Router aktivieren und den Raspebrry per Netzwerkkabel anschließen)
 
-# Wichtige Tipps
+Wichtige Tipps
+=======================
 Die GPIO des Reaspberry sind unter unterschiedlichen Namen anzusprechen. In der Regel wird für die hier abgelegten Beispiele die  BCM-Nomenklatur genutzt.
