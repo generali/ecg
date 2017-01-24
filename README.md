@@ -23,7 +23,9 @@ Anleitung Installation:
   - alle nachfolgenden Befehle versuchensich auf die Consolen-Befehle zu beschränken, da dciese den kleinsten gemeinsamen Nenner darstellen, der auf jedem Raspian/Debian-System funktioniert.
     
 2. Github clonen
-  - cd ~
+Um im späteren Verlauf Ressourcen in dieses Repository übertragen zu könnnen, ist ein vorheriges Klonen des bestehenden Repository durchzuführen. Ausgehend von dem Benutzerverzeichnis (in der Regel 'pi') können folgende Schritte auf der Konsole durchgeführt werden:
+
+  - cd ~
   - git clone https://github.com/generali/ecg.git
   - cd ecg
   
