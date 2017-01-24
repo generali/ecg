@@ -5,8 +5,11 @@ import time
 import sys
 
 bt = ['CC:20:E8:64:0A:7F', '34:4D:AA:AD:7F:C0']
+# You can hardcode the desired device ID here as a string to skip the discovery stage
+addr = "CC:20:E8:64:0A:7F"
 varWaitTime = 30
 
+# #################################################
 
 ARG_DISPLAY=0
 for arg in sys.argv:
@@ -41,28 +44,16 @@ def UpdateStatus():
   except:
 	pass
 			
-			
-			
-			
-try:
-  while True:
-    for i in range (len(bt)):
-      doublecheck = 0
-      while doublecheck < 1:
-	print("Scanning device: %s" % bt[i])
-        result = bluetooth.lookup_name(bt[i], timeout=3)
-        if (result != None):
-          # bluetooth device in range
-          if ARG_DISPLAY == 1:
-		print "Status 1: MAC ",bt[i]," wurde gefunden. Taster freigegeben (LED=blau)"
-        	UpdateStatus()
-	else:
-          if ARG_DISPLAY == 1:
-		print "Status: 0 (MAC ",bt[i]," wurde nicht gefunden (LED=rot)"
-          doublecheck = 1
-	
-    time.sleep(varWaitTime)
-
-except KeyboardInterrupt:
-  destroy()
-
+while True:
+    # Try to gather information from the desired device.
+    # We're using two different metrics (readable name and data services)
+    # to reduce false negatives.
+    state = bluetooth.lookup_name(addr, timeout=20)
+    services = bluetooth.find_service(address=addr)
+    # Flip the LED pin on or off depending on whether the device is nearby
+    if state == None and services == []:
+        print("No device detected in range...")
+    else:
+        print("Device detected!")
+    # Arbitrary wait time
+    time.sleep(1)
