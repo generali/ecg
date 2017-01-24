@@ -29,7 +29,7 @@ Um im späteren Verlauf Ressourcen in dieses Repository übertragen zu könnnen,
   - git clone https://github.com/generali/ecg.git
   - cd ecg
   
-  Done :)
+  Done :) Für eine spätere Übertragung der geänderten Dateien kann nach dem ersten Klonen dann im Verzeichnis ./ecg/ das Skript "./gitpush.sh" ausgeführt werden, welches die Änderungen akzeptiert, kommentiert und überträgt. Hierzu sind im Verlauf  Benutzername- und kennwort von Github anzugeben. Ggf. ist vorab das Skript "./gitpull.sh" aufzurufen, um zwischenzeitliche Änderungen in Github auf das lokale System zu übertragen ("local merge").
   
 3. für eine Standardinstallation,die alle Treiber und Hilfsprogramme für die Sensorik mitbringt, kann das Skript *init.sh* ausgeführt werden.
 
