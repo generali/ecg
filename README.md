@@ -20,7 +20,7 @@ Anleitung:
 1. SD Karte installieren und in Betrieb nehmen
   - Empfohlen wird das Raspian-Image (https://www.raspberrypi.org/downloads/raspbian/) entweder in der vollen Ausstattung (mit Pixel als GUI) oder in der Lite-Variante (nur Console). 
   - Empfohlen ist weiterhin für den späteren Betrieb die Lite-Variante, da diese dazu führt, dass die Services bereits so eingerichtet werden, dass das System "headless" funktioniert. Eine Einrichtung von Diensten sollte bei der Nutzung der GUI immer so erfolgen, dass diese später auch im "headless mode" erfolgt (z.B. Autostart-Funktionalität). Die nachfolgenden 
-    - alle nachfolgenden Befehle versuchensich auf die Consolen-Befehle zu beschränken, da dciese den kleinsten gemeinsamen Nenner darstellen, der auf jedem Raspian/Debian-System funktioniert.
+  - alle nachfolgenden Befehle versuchensich auf die Consolen-Befehle zu beschränken, da dciese den kleinsten gemeinsamen Nenner darstellen, der auf jedem Raspian/Debian-System funktioniert.
     
 2. Github clonen
   - cd ~
