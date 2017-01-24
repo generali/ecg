@@ -10,7 +10,7 @@ echo ""
 echo "Arguments:"
 echo "$THISSCRIPT <-file=listfile> <-display>"
 echo ""
-echo "-file=   : different list file"
+echo "-file=   : different list file (default: watchdog.list)"
 echo "-display : echo output to console"
 echo ""
 
@@ -34,8 +34,6 @@ for key in "$@"
 	esac
 	shift
 done
-
-echo "Start"
 
 while read WATCHDOG_PROCESS; do
 	if [[ "$WATCHDOG_PROCESS" != "#"* ]];then
