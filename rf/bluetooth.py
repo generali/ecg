@@ -5,6 +5,7 @@ import time
 import sys
 
 bt = ['CC:20:E8:64:0A:7F', '34:4D:AA:AD:7F:C0']
+waittime = 30
 
 
 ARG_DISPLAY=0
@@ -19,12 +20,30 @@ if ARG_DISPLAY == 1:
 	print "Ausgabe:"
 
 
-def Print(x):
-        if x == 0:
-		if ARG_DISPLAY == 1:
-	                print '    ***********************'
-       		        print '    *   Tuer geoeffnet!   *'
-       	       	 	print '    ***********************'
+def UpdateStatus():
+  try:
+     	context = ssl._create_unverified_context()
+
+     	url = open('/home/pi/circonus/ecg1_sensors_url.txt', 'r').read()
+#    	print 'URL=%s' % url
+
+     	import json
+     	import urllib2
+
+     	data = {
+             'ECG1.bluetooth': 1
+     	}
+
+     	req = urllib2.Request(url)
+	req.add_header('Content-Type', 'application/json')
+
+  	response = urllib2.urlopen(req, json.dumps(data), context=context)
+  except:
+	pass
+			
+			
+			
+			
 try:
   while True:
     for i in range (len(bt)):
@@ -40,6 +59,8 @@ try:
           if ARG_DISPLAY == 1:
 		print "Status: 0 (MAC ",bt[i]," wurde nicht gefunden (LED=rot)"
           doublecheck = 1
+	
+   Sleep(waittime)
 except KeyboardInterrupt:
   destroy()
 
