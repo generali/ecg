@@ -44,6 +44,7 @@ Um im späteren Verlauf Ressourcen in dieses Repository übertragen zu könnnen,
    - Hostname konfigurieren (7.A2 => möglichst eindeutig)
         - verwendete Namen (jeder pflegt bitte):
           - Rene: ecg1
+          - Bernd: bkr1
    - Reboot durchführen
 
 MERKER
