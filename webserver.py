@@ -49,10 +49,12 @@ class GetHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         if None != re.search('/' + SERVER_PATH_WRITE + '*', self.path):
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-            print "INFO: directory call fine"
+#            print "INFO: directory call fine"
             if ctype == 'application/json':
-                print "INFO: everything fine"		
-
+#                print "INFO: everything fine"
+                # do here some checks or executions if json specific
+                pass
+            
             content_len = int(self.headers.getheader('content-length'))
             post_body = self.rfile.read(content_len)
             self.send_response(200)
@@ -71,7 +73,7 @@ class GetHandler(BaseHTTPRequestHandler):
                     self.wfile.write(value)
                 except:
 #               Error in SQL
-                    print "Error in JSON?"
+                    print "ERROR: Error in JSON?"
                     pass
         return
 
