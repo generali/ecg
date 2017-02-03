@@ -51,7 +51,7 @@ do
 
 	URL=`cat /home/pi/circonus/rpi_ecg1_url.txt`
 
-        curl -X PUT --insecure "$URL" --data '{
+        curl -s -o /dev/null -X PUT --insecure "$URL" --data '{
             "'$THIS_SYSTEM.$THIS_SERIAL.RPI.cpu'": "'$CPU'",
             "'$THIS_SYSTEM.$THIS_SERIAL.RPI.mem_free'": "'$MEM_FREE'",
 	    "'$THIS_SYSTEM.$THIS_SERIAL.RPI.eth0_in'": "'$ETH0_IN'",
