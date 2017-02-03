@@ -49,9 +49,9 @@ class GetHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         if None != re.search('/' + SERVER_PATH_WRITE + '*', self.path):
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-#            print "INFO: directory call fine"
+            print "INFO: directory call fine"
             if ctype == 'application/json':
-#                print "INFO: everything fine"
+                print "INFO: everything fine"		
 
             content_len = int(self.headers.getheader('content-length'))
             post_body = self.rfile.read(content_len)
