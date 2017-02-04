@@ -37,6 +37,18 @@ sudo apt-get -y install ifstat
 # Python Module
 sudo pip install pybluez
 
+# Zeit-Synchro
+#sudo dpkg-reconfigure tzdata
+sudo apt-get -y purge ntp
+sudo apt-get -y install ntpdate
+sudo ntpdate -s 0.de.pool.ntp.org
+
+#
+# sudo crontab -e
+# add -> @reboot ntpdate -s 0.de.pool.ntp.org
+# add -> 0 */6 * * * ntpdate -s 0.de.pool.ntp.org
+#
+
 # Abschluss
 sudo apt-get -y autoremove
 
