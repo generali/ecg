@@ -48,6 +48,12 @@ sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python2.7-dev python-dev python-pip
 sudo pip install Flask flask-ask
 
+cd ~
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip
+unzip ngrok-stable-linux-arm.zip
+sudo rm -rf ngrok-stable-linux-arm.zip
+
+
 # Zeit-Synchro
 #sudo dpkg-reconfigure tzdata
 sudo apt-get -y purge ntp
