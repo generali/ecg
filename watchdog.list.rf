@@ -16,3 +16,4 @@
 -/home/pi/ecg/rf/gas.py
 -/home/pi/ecg/rf/dashbutton.py
 -/home/pi/ecg/rf/pressuremat.py
+/home/pi/ecg/ntp.sh
