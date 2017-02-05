@@ -39,6 +39,14 @@ sudo pip install pybluez
 
 # Suport USB
 sudo apt-get -y install ntfs-3g hfsutils hfsprogs exfat-fuse
+# mount with:
+# 1. sudo mkdir /media/usbstick
+# 2. sudo mount -t vfat -o utf8,uid=pi,gid=pi,noatime /dev/sda1 /media/usbstick
+
+# Alexa->Script
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install python2.7-dev python-dev python-pip
+sudo pip install Flask flask-ask
 
 # Zeit-Synchro
 #sudo dpkg-reconfigure tzdata
