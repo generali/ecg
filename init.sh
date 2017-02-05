@@ -37,6 +37,9 @@ sudo apt-get -y install ifstat
 # Python Module
 sudo pip install pybluez
 
+# Suport USB
+sudo apt-get -y install ntfs-3g hfsutils hfsprogs exfat-fuse
+
 # Zeit-Synchro
 #sudo dpkg-reconfigure tzdata
 sudo apt-get -y purge ntp
