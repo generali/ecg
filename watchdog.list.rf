@@ -11,8 +11,8 @@
 #
 /home/pi/ecg/rf/bt.py
 /home/pi/ecg/rf/temp_analog.py
--/home/pi/ecg/rf/system.sh
--/home/pi/ecg/rf/system_online.sh
+/home/pi/ecg/rf/system.sh
+/home/pi/ecg/rf/system_online.sh
 -/home/pi/ecg/rf/gas.py
 -/home/pi/ecg/rf/dashbutton.py
 -/home/pi/ecg/rf/pressuremat.py
