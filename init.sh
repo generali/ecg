@@ -37,6 +37,35 @@ sudo apt-get -y install ifstat
 # Python Module
 sudo pip install pybluez
 
+# Suport USB
+sudo apt-get -y install ntfs-3g hfsutils hfsprogs exfat-fuse
+# mount with:
+# 1. sudo mkdir /media/usbstick
+# 2. sudo mount -t vfat -o utf8,uid=pi,gid=pi,noatime /dev/sda1 /media/usbstick
+
+# Alexa->Script
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install python2.7-dev python-dev python-pip
+sudo pip install Flask flask-ask
+
+cd ~
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip
+unzip ngrok-stable-linux-arm.zip
+sudo rm -rf ngrok-stable-linux-arm.zip
+
+
+# Zeit-Synchro
+#sudo dpkg-reconfigure tzdata
+sudo apt-get -y purge ntp
+sudo apt-get -y install ntpdate
+sudo ntpdate -s 0.de.pool.ntp.org
+
+#
+# sudo crontab -e
+# add -> @reboot ntpdate -s 0.de.pool.ntp.org
+# add -> 0 */6 * * * ntpdate -s 0.de.pool.ntp.org
+#
+
 # Abschluss
 sudo apt-get -y autoremove
 
