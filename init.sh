@@ -35,6 +35,9 @@ sudo apt-get -y install htop
 sudo apt-get -y install git-core
 sudo apt-get -y install iftop
 
+# Samba
+sudo apt-get install samba samba-common-bin
+
 # Bluetooth
 sudo apt-get -y install bluetooth bluez
 # Python
