@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import RPi.GPIO as GPIO
 import time
 import requests
@@ -31,7 +33,23 @@ if ARG_DISPLAY == 1:
 	print ""
 	print "Ausgabe:"
 
-
+def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
+	# #######################################################
+	# Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
+	# die Variable, die ebenfalls angegebenist und liefert deren Wert
+	# zurück
+	# #######################################################
+	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
+	if ARG_DISPLAY == 1:
+		print "secret file: %s" % (secret_file)
+	try:
+    		config = {}
+    		execfile(secret_file, config)
+	except:
+		if ARG_DISPLAY == 1:
+			print "Error import secret file..."
+		pass
+	return config[mysecret]
 
 def setup():
         GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
@@ -54,7 +72,7 @@ def Status(sensordata):
   		try:
         		context = ssl._create_unverified_context()
 
-        		url = open('/home/pi/circonus/ecg1_sensors_url.txt', 'r').read()
+        		url = read_secret("json_push","url","/home/pi/ecg/")
 #       		print 'URL=%s' % url
 
         		import json
