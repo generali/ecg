@@ -50,7 +50,7 @@ def UpdateStatus(status):
 #  try:
      	context = ssl._create_unverified_context()
 
-     	url = read_secret("sensor_push","url","/home/pi/ecg/")
+     	url = read_secret("json_push","url","/home/pi/ecg/")
 #    	print 'URL=%s' % url
 
      	import json
