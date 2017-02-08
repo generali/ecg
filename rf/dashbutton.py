@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Tip: https://bob.igo.name/wp-content/uploads/2015/10/AmazonDash.pdf
 # Tip: http://hypfer.de/blog/2016/09/02/amazon-dash-button-zweckentfremden-ohne-arp-1n/
@@ -62,7 +63,7 @@ def button1_pressed(mac) :
   try:
      	context = ssl._create_unverified_context()
 
-     	url = open('/home/pi/circonus/ecg1_sensors_url.txt', 'r').read()
+     	url = read_secret("json_push","url","/home/pi/ecg/")
 #    	print 'URL=%s' % url
 
      	import json
