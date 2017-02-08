@@ -18,8 +18,10 @@ from datetime import datetime
 
 ARG_DISPLAY=0
 for arg in sys.argv:
-        if arg == "-display":
-                ARG_DISPLAY=1
+	if arg == "-display":
+		ARG_DISPLAY=1
+	if arg == "-fast":
+		varWaitTime=5
 
 def get_hostname():
 	 print "Checking hostname..."
@@ -129,6 +131,8 @@ def loop():
 
 if __name__ == '__main__':
     SENSOR_QUALIFIER = get_hostname()
+    if SENSOR_QUALIFIER == "":
+	       SENSOR_QUALIFIER=get_secret("hostname","hostname","/home/pi/ecg/")
 
 	init()
 	try:

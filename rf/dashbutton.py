@@ -109,6 +109,9 @@ def arp_display(pkt):
                 print("ARP Probe from unknown device: " + pkt[ARP].hwsrc)
 
 SENSOR_QUALIFIER = get_hostname()
+if SENSOR_QUALIFIER == "":
+	SENSOR_QUALIFIER=get_secret("hostname","hostname","/home/pi/ecg/")
+
 if ARG_DISPLAY == 1:
     print "DEMO: " + SENSOR_TYPE
     print ("#" * 40)

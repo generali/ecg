@@ -54,15 +54,16 @@ class GetHandler(BaseHTTPRequestHandler):
 #                print "INFO: everything fine"
                 # do here some checks or executions if json specific
                 pass
-            
+
             content_len = int(self.headers.getheader('content-length'))
             post_body = self.rfile.read(content_len)
             self.send_response(200)
             self.end_headers()
 
+#            print "INFO: request received"
             data = json.loads(post_body)
             for key, value in data.items():
-                print "Recieved data: key=%s, value=%s" % (key, value)
+#                print "INFO: Data submitted - key=%s, value=%s" % (key, value)
                 try:
                     conn_ins = sqlite3.connect(DATABASE_PATH)
                     SQL_CMD="INSERT INTO %s (SENSOR_KEY,SENSOR_VALUE) VALUES ('%s', '%s');" % (DB_TABLE_SENSOR_DATA, key, value)

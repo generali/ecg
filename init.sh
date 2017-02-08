@@ -18,6 +18,7 @@ case "$response" in
         echo ""
         ;;
 esac
+echo "hostename=$THISTHOST" > /home/pi/ecg/hostname.secret
 
 # #####################################################
 # 0. Identifizierung
@@ -41,7 +42,7 @@ sudo apt-get install samba samba-common-bin
 # Bluetooth
 sudo apt-get -y install bluetooth bluez
 # Python
-sudo apt-get -y install python-gobject python-gobject-2 python-bluez python-dev 
+sudo apt-get -y install python-gobject python-gobject-2 python-bluez python-dev
 sudo apt-get -y install python-rpi.gpio python-requests python-smbus i2c-tools
 sudo apt-get -y install build-essential libbluetooth-dev
 # Python Installer

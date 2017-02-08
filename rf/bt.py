@@ -6,13 +6,6 @@
 # command, which will try to implementi itself and report an "AttributeError"
 #
 
-import bluetooth
-import time
-import sys
-import requests
-import ssl
-import socket
-
 bt = ['CC:20:E8:64:0A:7F', '34:4D:AA:AD:7F:C0']
 # You can hardcode the desired device ID here as a string to skip the discovery stage
 addr = "CC:20:E8:64:0A:7F"
@@ -22,10 +15,21 @@ SENSOR_TYPE="bluetooth"
 
 # #################################################
 
+import bluetooth
+import time
+import sys
+import requests
+import ssl
+import socket
+
+# #################################################
+
 ARG_DISPLAY=0
 for arg in sys.argv:
 	if arg == "-display":
 		ARG_DISPLAY=1
+	if arg == "-fast":
+		varWaitTime=5
 
 def get_hostname():
 	 print "Checking hostname..."
@@ -43,13 +47,13 @@ def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"
 	# #######################################################
 	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
 	if ARG_DISPLAY == 1:
-		print "secret file: %s" % (secret_file)
+#		print "INFO: secret file: %s" % (secret_file)
 		try:
 			config = {}
 			execfile(secret_file, config)
 		except:
 			if ARG_DISPLAY == 1:
-				print "Error import secret file..."
+				print "ERROR: Error import secret file..."
 			pass
 	return config[mysecret]
 
@@ -77,11 +81,14 @@ def UpdateStatus(status):
 # ##################################
 
 SENSOR_QUALIFIER = get_hostname()
+if SENSOR_QUALIFIER == "":
+	SENSOR_QUALIFIER=get_secret("hostname","hostname","/home/pi/ecg/")
 
 if ARG_DISPLAY == 1:
-	print "DEMO: Bluetooth Tag"
+	print "DEMO: " + SENSOR_TYPE
 	print ("#" * 40)
 	print "Hostname: " + SENSOR_QUALIFIER
+	print "Searching for " + addr
 	print "Ausgabe:"
 
 while True:
@@ -97,6 +104,6 @@ while True:
 	else:
 		if ARG_DISPLAY == 1:
 			print("Device detected!")
-			UpdateStatus(1)
+		UpdateStatus(1)
 	# Arbitrary wait time
 	time.sleep(varWaitTime)

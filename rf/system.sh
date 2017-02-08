@@ -5,11 +5,12 @@ SLEEP_LOOP=30
 
 # #################################################
 
-THIS_SYSTEM=`hostname`
 THIS_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2`
 URL=`cat /home/pi/ecg/json_push.secret | cut -d\" -f2 | cut -d= -f2`
 
 # #################################################
+
+HOSTNAME=`cat /home/pi/ecg/hostname.secret | cut -d\" -f2 | cut -d= -f2`
 
 DISPLAY_ECHO=0
 for key in "$@"
@@ -51,17 +52,31 @@ do
 	SDCARD_FREE=`df -h | grep mmcb | awk '{print $5}' | cut -d'%' -f 1`
 	[[ $DISPLAY_ECHO == 1 ]] && echo "sd free: $SDCARD_FREE"
 
-        curl -s -o /dev/null -X PUT --insecure "$URL" --data '{
-            "'$THIS_SYSTEM.system.cpu'": "'$CPU'",
-            "'$THIS_SYSTEM.system.mem_free'": "'$MEM_FREE'",
-	    "'$THIS_SYSTEM.system.eth0_in'": "'$ETH0_IN'",
-	    "'$THIS_SYSTEM.system.eth0_out'": "'$ETH0_OUT'",
-	    "'$THIS_SYSTEM.system.wlan0_in'": "'$WLAN0_IN'",
-	    "'$THIS_SYSTEM.system.wlan0_out'": "'$WLAN0_OUT'",
-	    "'$THIS_SYSTEM.system.sdcard_free'": "'$SDCARD_FREE'",
-	    "'$THIS_SYSTEM.system.voltage'": "'$RPI_VOLTAGE'"
-         }'
+	[[ $DISPLAY_ECHO == 1 ]] && echo "Reporting sensor data to URL: $URL"
 
+	if [ $DISPLAY_ECHO == 1 ]; then
+        curl -s "$URL" --data '{
+        "'$HOSTNAME.system.cpu'": "'$CPU'",
+        "'$HOSTNAME.system.mem_free'": "'$MEM_FREE'",
+	    "'$HOSTNAME.system.eth0_in'": "'$ETH0_IN'",
+	    "'$HOSTNAME.system.eth0_out'": "'$ETH0_OUT'",
+	    "'$HOSTNAME.system.wlan0_in'": "'$WLAN0_IN'",
+	    "'$HOSTNAME.system.wlan0_out'": "'$WLAN0_OUT'",
+	    "'$HOSTNAME.system.sdcard_free'": "'$SDCARD_FREE'",
+	    "'$HOSTNAME.system.voltage'": "'$RPI_VOLTAGE'"
+         }'
+	else
+		curl -s -o /dev/null "$URL" --data '{
+        "'$HOSTNAME.system.cpu'": "'$CPU'",
+        "'$HOSTNAME.system.mem_free'": "'$MEM_FREE'",
+	    "'$HOSTNAME.system.eth0_in'": "'$ETH0_IN'",
+	    "'$HOSTNAME.system.eth0_out'": "'$ETH0_OUT'",
+	    "'$HOSTNAME.system.wlan0_in'": "'$WLAN0_IN'",
+	    "'$HOSTNAME.system.wlan0_out'": "'$WLAN0_OUT'",
+	    "'$HOSTNAME.system.sdcard_free'": "'$SDCARD_FREE'",
+	    "'$HOSTNAME.system.voltage'": "'$RPI_VOLTAGE'"
+         }'
+	fi
 #        curl -X PUT --insecure "$URL" --data '{
 #            "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.cpu'": "'$CPU'",
 #            "'$THIS_SYSTEM'"."'$THIS_SERIAL.RPI.mem_free'": "'$MEM_FREE'",
