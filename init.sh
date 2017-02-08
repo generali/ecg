@@ -36,6 +36,8 @@ sudo apt-get -y install ifstat
 
 # Python Module
 sudo pip install pybluez
+sudo pip install gpiozero
+sudo install response
 
 # Suport USB
 sudo apt-get -y install ntfs-3g hfsutils hfsprogs exfat-fuse
