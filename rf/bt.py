@@ -38,12 +38,14 @@ def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"
 	# zurück
 	# #######################################################
 	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
-	print "secret file: %s" % (secret_file)
+	if ARG_DISPLAY == 1:
+		print "secret file: %s" % (secret_file)
 	try:
     		config = {}
     		execfile(secret_file, config)
 	except:
-		print "Error import secret file..."
+		if ARG_DISPLAY == 1:
+			print "Error import secret file..."
 		pass
 	return config[mysecret]
 
