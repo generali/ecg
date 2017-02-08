@@ -24,6 +24,10 @@ for key in "$@"
 	-display)
 		DISPLAY_ECHO=1
 	;;
+	-edit)
+		sudo nano /etc/crontab
+		exit 0
+	;;
 	-file=*)
 		WATCHDOG_FILE="${key#*=}"
 		echo "Use non-default watchdog file '$WATCHDOG_FILE'"
