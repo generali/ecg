@@ -11,7 +11,7 @@ import cgi
 
 # IP-Adresse, auf der der Webservice horcht (z.B. localhost, 127.0.0.1, 10.0.0.54, my_raspberry.no-ip.com, ...)
 # ACHTUNG: Zugriff von andere IPs als der angegebenen werden aktuell nicht unterstuetzt
-SERVER_IP ="localhost"
+SERVER_IP ="10.11.12.1"
 # Port, auf dem der Webservice horcht
 SERVER_PORT = 8080
 
