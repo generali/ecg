@@ -107,6 +107,12 @@ git pull origin
 
 # ####################################################
 # 3. Git
+echo "Git Konfiguration"
+echo ""
+echo "Welcher Benutzername soll fuer Git verwendet werden?"
+read GIT_NAME
+echo "Welches E-Mail-Adresse soll Fuer Git verwendet werden?"
+read GIT_EMAIL
 git config --global push.default simple
-git config --global user.name "$THISHOST"
-git config --global user.email "$THISHOST@discard.email"
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
