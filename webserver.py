@@ -63,7 +63,7 @@ class GetHandler(BaseHTTPRequestHandler):
 #            print "INFO: request received"
             data = json.loads(post_body)
             for key, value in data.items():
-#                print "INFO: Data submitted - key=%s, value=%s" % (key, value)
+                print "INFO: Data submitted - key=%s, value=%s" % (key, value)
                 try:
                     conn_ins = sqlite3.connect(DATABASE_PATH)
                     SQL_CMD="INSERT INTO %s (SENSOR_KEY,SENSOR_VALUE) VALUES ('%s', '%s');" % (DB_TABLE_SENSOR_DATA, key, value)

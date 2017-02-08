@@ -17,7 +17,7 @@ import ssl
 import time
 import sys
 from datetime import datetime
-
+import socket
 
 ARG_DISPLAY=0
 for arg in sys.argv:

@@ -13,6 +13,7 @@ import ssl
 import time
 import sys
 from datetime import datetime
+import socket
 
 # ##########################################################
 

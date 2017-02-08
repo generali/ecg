@@ -122,4 +122,3 @@ try:
           doublecheck = 1
 except KeyboardInterrupt:
   destroy()
-

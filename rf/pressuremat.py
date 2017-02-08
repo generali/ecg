@@ -16,6 +16,7 @@ import os
 import math
 import ssl
 from datetime import datetime
+import socket
 
 # #######################################################
 

@@ -51,6 +51,6 @@ def gpio_control(status, pin):
 
 if __name__ == '__main__':
 	url = read_secret("json_push","url","/home/pi/ecg/")
-	
+
 	port = 5000 #the custom port you want
 	app.run(host='0.0.0.0', port=port)

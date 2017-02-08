@@ -13,6 +13,7 @@ import ssl
 import time
 import sys
 from datetime import datetime
+import socket
 
 # ##########################################################
 
@@ -75,7 +76,7 @@ def init():
 		print("Pin S		-> (+++Pin 2 ADC+++)")
 		print("")
 
-		def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
+def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
 	# #######################################################
 	# Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
 	# die Variable, die ebenfalls angegebenist und liefert deren Wert
