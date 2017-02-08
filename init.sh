@@ -1,5 +1,26 @@
 #!/bin/bash
+
+# Hostname (Default)
 THISHOST="ecg1"
+# Abfrage des Hostnamen
+echo "Bitte geben Sie den Namen des Systems ein. Dieser sollte eindeutig sein:"
+read THISHOST
+echo ""
+echo "Es wird der Hostname verwendet: $THISHOST"
+read -r -p "Forfahren? [y/N] " response
+case "$response" in
+    [N][o]|[nN])
+        echo "Abbruch durch Benutzer."
+        exit 0
+        ;;
+    *)
+        echo "OK, weitermachen..."
+        echo ""
+        ;;
+esac
+
+# #####################################################
+# 0. Identifizierung
 sudo hostname $THISHOST
 sudo sysctl kernel.hostname=$THISHOST
 
