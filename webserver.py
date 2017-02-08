@@ -11,7 +11,7 @@ import cgi
 
 # IP-Adresse, auf der der Webservice horcht (z.B. localhost, 127.0.0.1, 10.0.0.54, my_raspberry.no-ip.com, ...)
 # ACHTUNG: Zugriff von andere IPs als der angegebenen werden aktuell nicht unterstuetzt
-SERVER_IP ="10.11.12.1"
+SERVER_IP ="0.0.0.0"
 # Port, auf dem der Webservice horcht
 SERVER_PORT = 8080
 
@@ -62,7 +62,7 @@ class GetHandler(BaseHTTPRequestHandler):
 
             data = json.loads(post_body)
             for key, value in data.items():
-#                print "Key=%s, Value=%s" % (key, value)
+                print "Recieved data: key=%s, value=%s" % (key, value)
                 try:
                     conn_ins = sqlite3.connect(DATABASE_PATH)
                     SQL_CMD="INSERT INTO %s (SENSOR_KEY,SENSOR_VALUE) VALUES ('%s', '%s');" % (DB_TABLE_SENSOR_DATA, key, value)

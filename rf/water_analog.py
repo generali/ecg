@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+SENSOR_TYPE="analog_water"
+varWaitTime=10
+
+# ##########################################################
+
 import ADC0832
 import time
 import math
@@ -9,19 +14,44 @@ import time
 import sys
 from datetime import datetime
 
-
-varWaitTime=10
+# ##########################################################
 
 ARG_DISPLAY=0
 for arg in sys.argv:
         if arg == "-display":
                 ARG_DISPLAY=1
 
+def get_hostname():
+	 print "Checking hostname..."
+	 if socket.gethostname().find('.')>=0:
+		name=socket.gethostname()
+	 else:
+		name=socket.gethostbyaddr(socket.gethostname())[0]
+	 return name
+
+def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
+	# #######################################################
+	# Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
+	# die Variable, die ebenfalls angegebenist und liefert deren Wert
+	# zurück
+	# #######################################################
+	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
+	if ARG_DISPLAY == 1:
+		print "secret file: %s" % (secret_file)
+		try:
+			config = {}
+			execfile(secret_file, config)
+		except:
+			if ARG_DISPLAY == 1:
+				print "Error import secret file..."
+			pass
+	return config[mysecret]
+
 def init():
 	ADC0832.setup()
 	if ARG_DISPLAY == 1:
 		print("")
-		print("Analog Wasserstand/Feuchtigkeit")
+		print "DEMO: " + SENSOR_TYPE"
 		print("")
 		print("ADC")
 		print("ADC		   RPI")
@@ -76,13 +106,6 @@ def loop():
 #			print '%s Temperatur = %.2f C (Wartezeit: %ss)' % (t, temp, varWaitTime)
 			print 'Rueckmeldung analoger Sensor: %s' % (analogVal)
 
-
-#	        URL=`cat /home/pi/circona/ecg1_sensors_url.txt`
-
-#        	curl -X PUT --insecure "$URL" --data '{
-#        	    "ECG1.temperature": "'$temp'"
-#	          }'
-
 		try:
 			context = ssl._create_unverified_context()
 
@@ -92,10 +115,10 @@ def loop():
 			import json
 			import urllib2
 
-			data = {
-       		 		'ECG1.temperature': temp
-			}
-
+            SENSOR_FQN = SENSOR_QUALIFIER + "." + SENSOR_TYPE
+            data = {
+			         SENSOR_FQN: 1
+            }
 			req = urllib2.Request(url)
 			req.add_header('Content-Type', 'application/json')
 
@@ -105,11 +128,12 @@ def loop():
 		time.sleep(varWaitTime)
 
 if __name__ == '__main__':
-	init()
+    SENSOR_QUALIFIER = get_hostname()
 
+	init()
 	try:
 		loop()
-	except KeyboardInterrupt: 
+	except KeyboardInterrupt:
 		ADC0832.destroy()
 		if ARG_DISPLAY == 1:
 			print 'Done.'
