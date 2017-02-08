@@ -7,6 +7,9 @@ SLEEP_LOOP=30
 
 THIS_SYSTEM=`hostname`
 THIS_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2`
+URL=`cat /home/pi/ecg/json_push.secret | cut -d\" -f2 | cut -d= -f2`
+
+# #################################################
 
 DISPLAY_ECHO=0
 for key in "$@"
@@ -47,9 +50,6 @@ do
 	# sdcard_free (%)
 	SDCARD_FREE=`df -h | grep mmcb | awk '{print $5}' | cut -d'%' -f 1`
 	[[ $DISPLAY_ECHO == 1 ]] && echo "sd free: $SDCARD_FREE"
-
-
-	URL=`cat /home/pi/circonus/rpi_ecg1_url.txt`
 
         curl -s -o /dev/null -X PUT --insecure "$URL" --data '{
             "'$THIS_SYSTEM.$THIS_SERIAL.RPI.cpu'": "'$CPU'",
