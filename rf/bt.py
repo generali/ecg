@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 #
 # WARNING: never rename file to "bluetooth.py" or this script will fail because of the import
