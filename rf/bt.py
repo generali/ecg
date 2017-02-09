@@ -25,19 +25,23 @@ import socket
 # #################################################
 
 ARG_DISPLAY=0
+ARG_DEBUG=0
 for arg in sys.argv:
 	if arg == "-display":
 		ARG_DISPLAY=1
+	if arg == "-debug":
+		ARG_DEBUG=1
 	if arg == "-fast":
 		varWaitTime=5
 
 def get_hostname():
-	 print "Checking hostname..."
-	 if socket.gethostname().find('.')>=0:
+	if ARG_DISPLAY == 1:
+		print "Checking hostname..."
+	if socket.gethostname().find('.')>=0:
 		name=socket.gethostname()
-	 else:
+	else:
 		name=socket.gethostbyaddr(socket.gethostname())[0]
-	 return name
+	return name
 
 def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
 	# #######################################################
@@ -46,19 +50,23 @@ def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"
 	# zurück
 	# #######################################################
 	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
+	# default value
+	#config[mysecret]="ERROR"
 	if ARG_DISPLAY == 1:
-#		print "INFO: secret file: %s" % (secret_file)
-		try:
-			config = {}
-			execfile(secret_file, config)
-		except:
-			if ARG_DISPLAY == 1:
-				print "ERROR: Error import secret file..."
-			pass
+		print "INFO: secret file: %s" % (secret_file)
+	try:
+		config = {}
+		execfile(secret_file, config)
+		if ARG_DISPLAY == 1:
+			print "INFO: %s=%s" % (mysecret,config[mysecret])
+	except:
+		#if ARG_DISPLAY == 1:
+		print "ERROR: Error import secret file... (missing secret file?)"
+		pass
 	return config[mysecret]
 
 def UpdateStatus(status):
-#  try:
+  try:
 		context = ssl._create_unverified_context()
 
 		url = read_secret("json_push","url","/home/pi/ecg/")
@@ -75,8 +83,8 @@ def UpdateStatus(status):
 		req = urllib2.Request(url)
 		req.add_header('Content-Type', 'application/json')
 		response = urllib2.urlopen(req, json.dumps(data), context=context)
-#  except:
-#   pass
+  except:
+   pass
 
 # ##################################
 
