@@ -30,11 +30,16 @@ sudo sysctl kernel.hostname=$THISHOST
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y autoremove
+
 # Tools
 sudo apt-get -y install mc
 sudo apt-get -y install htop
 sudo apt-get -y install git-core
 sudo apt-get -y install iftop
+
+# WLAN Hotspot
+sudo apt-get -y install hostapd
+sudo apt-get -y install isc-dhcp-server
 
 # Samba
 sudo apt-get install samba samba-common-bin
@@ -62,7 +67,9 @@ sudo apt-get -y install ifstat
 # Python Module
 sudo pip install pybluez
 sudo pip install gpiozero
-sudo install response
+sudo pip install response
+#sudo pip install pandas
+sudo apt-get -y install python-pandas
 
 # Suport USB
 sudo apt-get -y install ntfs-3g hfsutils hfsprogs exfat-fuse

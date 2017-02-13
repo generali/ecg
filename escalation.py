@@ -22,7 +22,7 @@ from blessings import Terminal
 conn = sqlite3.connect('sensor_data.db')
 
 
-ESC_LEVEL = 1
+ESC_LEVEL = 3
 DB_FILE="sensor_data.db"
 DB_SQL= " SELECT * FROM escalation_handling WHERE level = %s" % (ESC_LEVEL)
 

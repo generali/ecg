@@ -32,6 +32,10 @@ for key in "$@"
 		WATCHDOG_FILE="${key#*=}"
 		echo "Use non-default watchdog file '$WATCHDOG_FILE'"
 	;;
+	-log=*)
+		LOG_FILE="${key#*=}"
+		echo "Use log file '$LOG_FILE'"
+	;;
 	*)
 		# unknown option
 	;;

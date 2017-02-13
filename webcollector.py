@@ -9,6 +9,7 @@ import cgi
 import logging
 import sys
 import time
+import datetime
 
 # ######################################################
 
@@ -18,8 +19,9 @@ SERVER_IP ="0.0.0.0"
 # Port, auf dem der Webservice horcht
 SERVER_PORT = 8080
 
-SERVER_PATH_WRITE='sensors/write/'
-SERVER_PATH_READ='sensors/read/'
+# part of URL to save sensor information. call e.g. http://ecg:8080/collector/
+SERVER_PATH_WRITE='collector/'
+#SERVER_PATH_READ='sensors/read/'
 
 # Konfiguration der Datenbank
 DATABASE_PATH = "/home/pi/ecg/sensor_data.db"
@@ -72,23 +74,25 @@ def  do_log(mtype, message):
 class GetHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        if None != re.search('/' + SERVER_PATH_READ + '*', self.path):
-            parsed_path = urlparse.urlparse(self.path)
-            conn = sqlite3.connect(DATABASE_PATH)
-
-            cursor = conn.execute("SELECT exectime,sensor_key, sensor_value from %s" % (DB_TABLE_SENSOR_DATA))
-            message = "<html><head><style>thead {color:grey;} table,th,td {border:1px solid black;}</style></head><body><table border=1><thead><tr><th>Zeit</th><th>Sensor</th><th>Wert</th></tr></thead>"
-            for row in cursor:
-                message+= "<tr><td>%s</td>" % (row[0])
-                message+= "<td>%s</td>" % (row[1])
-                message+= "<td>%s</td></tr>" % (row[2])
-            conn.close()
-            message+="</table></body></html>"
-
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(message)
-
+#        if None != re.search('/' + SERVER_PATH_READ + '*', self.path):
+#            parsed_path = urlparse.urlparse(self.path)
+#            conn = sqlite3.connect(DATABASE_PATH)
+#
+#            cursor = conn.execute("SELECT exectime,sensor_key, sensor_value from %s" % (DB_TABLE_SENSOR_DATA))
+#            cursor = conn.execute('SELECT exectime, sensor_value FROM %s WHERE sensor_key LIKE \"%temperature%\" AND (strftime(\'%s\',datetime(\'now\',\'localtime\'))-strftime(\'%s\',exectime)<600) ORDER BY exectime' % (DB_TABLE_SENSOR_DATA))
+#
+#            message = "<html><head><style>thead {color:grey;} table,th,td {border:1px solid black;}</style></head><body><table border=1><thead><tr><th>Zeit</th><th>Sensor</th><th>Wert</th></tr></thead>"
+#            for row in cursor:
+#                message+= "<tr><td>%s</td>" % (row[0])
+#                message+= "<td>%s</td>" % (row[1])
+#                message+= "<td>%s</td></tr>" % (row[2])
+#            conn.close()
+#            message+="</table></body></html>"
+#
+#            self.send_response(200)
+#            self.end_headers()
+#            self.wfile.write(message)
+	pass
         return
 
     def do_POST(self):
