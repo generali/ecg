@@ -195,8 +195,5 @@ if __name__ == '__main__':
 #    do_log("INFO",'     VALUE OF SENSOR: 35.55 (as numeric)')
 #    do_log("INFO",'     VALUE OF SENSOR: "35.55" (as string)')
 #    do_log("INFO",'')
-#    do_log("INFO",'Display sensor data via webbrowser:')
-#    do_log("INFO",'=> http://{0}:{0}/{0}'.format(SERVER_IP,SERVER_PORT,SERVER_PATH_READ))
-#    do_log("INFO",'')
 #    do_log("INFO",'===============================================================================')
     server.serve_forever()
