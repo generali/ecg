@@ -238,7 +238,7 @@ def term_escalation(fcode=7, bcode=0, title="", message="", delimiter="*"):
 
 def send_terminal(type, action, parameter):
     term_init()
-    (esc_fcolor, esc_bcolor, esc_title, esc_message) = escalations.get(parameter)
+    esc_fcolor, esc_bcolor, esc_title, esc_message = parameter.split(',')
     term_escalation(esc_fcolor, esc_bcolor, esc_title, esc_message)
     term_exit()
 
