@@ -22,7 +22,7 @@ from blessings import Terminal
 conn = sqlite3.connect('sensor_data.db')
 
 
-ESC_LEVEL = 3
+ESC_LEVEL = 1
 DB_FILE="sensor_data.db"
 DB_SQL= " SELECT * FROM escalation_handling WHERE level = %s" % (ESC_LEVEL)
 
@@ -238,7 +238,7 @@ def term_escalation(fcode=7, bcode=0, title="", message="", delimiter="*"):
 
 def send_terminal(type, action, parameter):
     term_init()
-    esc_fcolor, esc_bcolor, esc_title, esc_message = parameter.split(',')
+    esc_fcolor, esc_bcolor, esc_title, esc_message = parameter.split('|')
     term_escalation(esc_fcolor, esc_bcolor, esc_title, esc_message)
     term_exit()
 
