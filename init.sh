@@ -68,7 +68,8 @@ sudo apt-get -y install ifstat
 sudo pip install pybluez
 sudo pip install gpiozero
 sudo pip install requests
-#sudo pip install pandas
+sudo pip install pandas
+sudo pip install blessings
 sudo apt-get -y install python-pandas
 
 # Suport USB
