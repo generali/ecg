@@ -104,7 +104,25 @@ sudo ntpdate -s 0.de.pool.ntp.org
 sudo apt-get -y autoremove
 
 # #####################################################
-# 2. WiringPi installieren (für SensorPack)
+# 2. WLAN Konfiguration
+network_ssid="wlan4eap"
+echo "Welcher Benutzername soll für die SSID '${network_ssid} verwendet werden?"
+read network_username
+echo "Welches Kennwort soll für Benutzername '${network_username} für die SSID '${network_ssid} verwendet werden? (ACHTUNG: Eingabe sichtbar!)"
+read network_passowrd
+
+cat >>/etc/wpa_supplicant/wpa_supplicant.conf <<EOL
+network={
+     ssid="${network_ssid}"
+     key_mgmt=WPA-EAP
+     eap=PEAP
+     identity="${network_username}"
+     password="${network_password}"
+}
+EOL
+
+# #####################################################
+# 3. WiringPi installieren (für SensorPack)
 cd ~
 mkdir git
 cd git
@@ -117,7 +135,7 @@ git pull origin
 ./build
 
 # ####################################################
-# 3. Git
+# 4. Git
 echo "Git Konfiguration"
 echo ""
 echo "Welcher Benutzername soll fuer Git verwendet werden?"
