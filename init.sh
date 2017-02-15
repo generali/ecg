@@ -67,7 +67,7 @@ sudo apt-get -y install ifstat
 # Python Module
 sudo pip install pybluez
 sudo pip install gpiozero
-sudo pip install response
+sudo pip install requests
 #sudo pip install pandas
 sudo apt-get -y install python-pandas
 
