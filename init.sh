@@ -67,19 +67,15 @@ sudo apt-get -y install ifstat
 # Python Module
 sudo pip install pybluez
 sudo pip install gpiozero
-<<<<<<< HEAD
-sudo pip install response
+sudo pip install requests
+sudo pip install blessings
 #sudo pip install pandas
 
 # Panda
 =======
-sudo pip install requests
-sudo pip install pandas
-sudo pip install blessings
->>>>>>> ab4cb000edbecdb3572789494a0df210601f744b
 sudo apt-get -y install python-pandas
 sudo apt-get -y install pandoc
-echo "Jyper Notebook settings:"
+echo "Jupyter Notebook settings:"
 sudo adduser jns
 sudo usermod -aG sudo,ssh jns
 
