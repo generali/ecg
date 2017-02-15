@@ -69,7 +69,13 @@ sudo pip install pybluez
 sudo pip install gpiozero
 sudo pip install response
 #sudo pip install pandas
+
+# Panda
 sudo apt-get -y install python-pandas
+sudo apt-get -y install pandoc
+echo "Jyper Notebook settings:"
+sudo adduser jns
+sudo usermod -aG sudo,ssh jns
 
 # Suport USB
 sudo apt-get -y install ntfs-3g hfsutils hfsprogs exfat-fuse
