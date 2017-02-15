@@ -65,10 +65,13 @@ sudo apt-get -y install dnsmasq
 sudo apt-get -y install ifstat
 
 # Python Module
-sudo pip install pybluez
-sudo pip install gpiozero
-sudo pip install requests
-sudo pip install blessings
+cd ~
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python2.7 get-pip.py
+sudo pip2.7 install pybluez
+sudo pip2.7 install gpiozero
+sudo pip2.7 install requests
+sudo pip2.7 install blessings
 #sudo pip install pandas
 
 # Panda
