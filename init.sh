@@ -163,4 +163,5 @@ wget http://www.waveshare.com/w/upload/4/4b/LCD-show-161112.tar.gz
 tar xvf LCD-show-YYMMDD.tar.gz
 cd LCD-show/
 ./LCD35-show
+
 # reboot, last command
