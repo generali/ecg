@@ -1,0 +1,38 @@
+2017-02-20 22:17:59.987912 The ADC Value of fotoresistor is: 26
+2017-02-20 22:18:01.026954 The ADC Value of fotoresistor is: 20
+2017-02-20 22:18:02.054513 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:03.083219 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:04.111299 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:05.139277 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:06.166986 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:07.193797 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:08.222263 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:09.250600 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:10.278877 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:11.307445 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:12.335316 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:13.363798 The ADC Value of fotoresistor is: 23
+2017-02-20 22:18:14.392344 The ADC Value of fotoresistor is: 30
+2017-02-20 22:18:15.420430 The ADC Value of fotoresistor is: 50
+2017-02-20 22:18:44.576345 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:45.603533 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:46.631767 The ADC Value of fotoresistor is: 22
+2017-02-20 22:18:47.660409 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:48.687970 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:49.155718 --> Button is pressed -> Signal!
+2017-02-20 22:18:49.716492 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:50.744358 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:51.772942 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:52.801525 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:53.829361 The ADC Value of fotoresistor is: 21
+2017-02-20 22:18:54.045600 --> Button is released -> No signal!
+2017-02-20 22:18:54.858567 The ADC Value of fotoresistor is: 23
+2017-02-20 22:18:56.084147 --> Yea! PIR Motion detected!
+2017-02-20 22:19:08.175899 --> Yea! PIR Motion detected!
+2017-02-20 22:19:08.970524 The ADC Value of fotoresistor is: 50
+2017-02-20 22:19:11.031702 The ADC Value of fotoresistor is: 50
+2017-02-20 22:19:12.062778 The ADC Value of fotoresistor is: 50
+2017-02-20 22:19:13.091615 The ADC Value of fotoresistor is: 50
+2017-02-20 22:19:14.121526 The ADC Value of fotoresistor is: 50
+5_Fotoresistor_ADC_2.py: I'm in except now
+5_Fotoresistor_ADC_2.py: Processing finally routine
