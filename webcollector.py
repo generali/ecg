@@ -118,7 +118,7 @@ class GetHandler(BaseHTTPRequestHandler):
             conn_ins = sqlite3.connect(DATABASE_PATH)
 
             for key, value in data.items():
-		LOGSTRING="Data submitted - Key={0}, value={0}".format(key, value)
+                LOGSTRING="Data submitted - Key={0}, value={0}".format(key, value)
                 do_log("INFO", LOGSTRING)
                 SENSOR_TABLE = "sensor_data"
                 SENSOR_TABLE_TYPE = "sensor_type"
@@ -160,7 +160,7 @@ class GetHandler(BaseHTTPRequestHandler):
                     self.wfile.write(value)
                 except:
                     LOGSTRING="Error creating sensor view \"{0}\". Already there?".format(SENSOR_VIEW)
-		    do_log ("WARNING", LOGSTRING)
+                    do_log ("WARNING", LOGSTRING)
                     pass
 
                 time.sleep(DATABASE_SLEEP)
@@ -172,8 +172,8 @@ class GetHandler(BaseHTTPRequestHandler):
                     conn_ins.commit()
                     self.wfile.write(value)
                 except:
-#               Error in SQL
-		    LOGSTRING="Error inserting data in table '%s' with %s=%s" % (SENSOR_TABLE, key, value)
+                    # Error in SQL
+                    LOGSTRING="Error inserting data in table '%s' with %s=%s" % (SENSOR_TABLE, key, value)
                     do_log ("ERROR", LOGSTRING)
                     pass
 

@@ -16,11 +16,9 @@ import json
 import requests
 import urllib2
 import time
+import os.path
 import RPi.GPIO as GPIO
 from blessings import Terminal
-
-conn = sqlite3.connect('sensor_data.db')
-
 
 ESC_LEVEL = 1
 DB_FILE="sensor_data.db"
@@ -60,23 +58,28 @@ BuzzerSong =    [
 
 # ----------------------------------------------------------------
 
-conn = sqlite3.connect(DB_FILE)
 
 def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
-	# #######################################################
-	# Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
-	# die Variable, die ebenfalls angegebenist und liefert deren Wert
-	# zurück
-	# #######################################################
-	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
-	print "secret file: %s" % (secret_file)
-	try:
-    		config = {}
-    		execfile(secret_file, config)
-	except:
-		print "Error import secret file..."
-		pass
-	return config[mysecret]
+    # #######################################################
+    # Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
+    # die Variable, die ebenfalls angegebenist und liefert deren Wert
+    # zurück
+    # #######################################################
+    secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
+    # default value
+    #config[mysecret]="ERROR"
+    print "INFO: secret file: %s" % (secret_file)
+    print "INFO: secret=%s" % (mysecret)
+#    if os.path.isfile(secret_file):
+
+    try:
+        config = {}
+        execfile(secret_file, config)
+        print "INFO: %s=%s" % (mysecret,config[mysecret])
+    except:
+        print "ERROR: Error import secret file... (missing secret file?)"
+        pass
+    return config[mysecret]
 
 # ###########################################################################
 # ###########################################################################
@@ -88,19 +91,21 @@ def send_ifttt(type, action, parameter):
 	# #######################################################
 	#print "ifttt (%s)" % (parameter)
 	#print "ifttt url: %s" % (IFTTT_URL)
-	IFTTT_URL = read_secret("ifttt", "url")
+#    if read_secret("escalation","enable_ifttt") != 1:
+#        return
+    IFTTT_URL = read_secret("ifttt", "url")
 
-	try:
-		context = ssl._create_unverified_context()
-		data = {
-			'value1': parameter
-		}
-		req = urllib2.Request(IFTTT_URL)
-		req.add_header('Content-Type', 'application/json')
-		response = urllib2.urlopen(req, json.dumps(data), context=context)
-	except:
-		print "ERROR in IFTTT request"
-		pass
+    try:
+        context = ssl._create_unverified_context()
+        data = {
+            'value1': parameter
+        }
+        req = urllib2.Request(IFTTT_URL)
+        req.add_header('Content-Type', 'application/json')
+        response = urllib2.urlopen(req, json.dumps(data), context=context)
+    except:
+        print "ERROR in IFTTT request"
+        pass
 
 # ###########################################################################
 # ###########################################################################
@@ -111,24 +116,25 @@ def send_email(type, action, parameter):
 	# für die Nutzung eines (erforderlichen) SMTP-Servers sind in
 	# der Datei "email.secret" anzugeben (user, password, server, port)
 	# #######################################################
-#	print "email"
-	import smtplib
-	import string
+#    if read_secret("escalation","enable_email") != 1:
+#        return
+    import smtplib
+    import string
 
-	USER    = read_secret("email","user")
-	PASS    = read_secret("email","password")
-	HOST    = read_secret("email","server")
-	SUBJECT = "Eskalation ElderyCare/Guard"
-	TO      = action
-	FROM    = "rpicontest@gmail.com"
-	TEXT    = parameter
-	PORT	= read_secret("email","port")
+    USER    = read_secret("email","user")
+    PASS    = read_secret("email","password")
+    HOST    = read_secret("email","server")
+    SUBJECT = "Eskalation ElderyCare/Guard"
+    TO      = action
+    FROM    = "rpicontest@gmail.com"
+    TEXT    = parameter
+    PORT	= read_secret("email","port")
 
 #	print "user: %s" % (USER)
 #	print "password: %s" % (PASS)
 #	print "server: %s" % (HOST)
 #	print "port: %s" % (PORT)
-	BODY = string.join((
+    BODY = string.join((
 	        "From: {0}".format(FROM),
 	        "To: {0}".format(TO),
 	        "Subject: {0}".format(SUBJECT),
@@ -136,14 +142,14 @@ def send_email(type, action, parameter):
 	        TEXT.encode('utf-8'),
 	        ), "\r\n")
 
-	server = smtplib.SMTP(HOST, PORT)
-	server.set_debuglevel(1)
-	server.ehlo()
-	server.starttls()
-	server.ehlo()
-	server.login(USER, PASS)
-	server.sendmail(FROM, TO, BODY)
-	server.quit()
+    server = smtplib.SMTP(HOST, PORT)
+    server.set_debuglevel(1)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(USER, PASS)
+    server.sendmail(FROM, TO, BODY)
+    server.quit()
 
 # ###########################################################################
 # ###########################################################################
@@ -152,7 +158,9 @@ def send_http(type, action, parameter):
 	# #######################################################
 	# Führt einen HTTP-Request aus
 	# #######################################################
-	print "http"
+#    if read_secret("escalation","enable_http") != 1:
+#        return
+    print "http"
 
 # ###########################################################################
 # ###########################################################################
@@ -162,7 +170,9 @@ def send_gpio(type, action, parameter):
 	# Führt eine Änderung des Signals an dem angegebenen Port
 	# des GPIO (BCM) aus.
 	# #######################################################
-	print "gpio"
+#    if read_secret("escalation","enable_gpio") != 1:
+#        return
+    print "gpio"
 
 # ###########################################################################
 # ###########################################################################
@@ -195,6 +205,9 @@ def buzzer_destroy():
     GPIO.cleanup()
 
 def send_buzzer(type, action, parameter):
+#    if read_secret("escalation","enable_buzzer") != 1:
+#        return
+
 	buzzer_setup()
 	try:
 		buzzer_run()
@@ -237,8 +250,12 @@ def term_escalation(fcode=7, bcode=0, title="", message="", delimiter="*"):
 		print term.on_color(bcode) + term.color(fcode) + term.bold + message
 
 def send_terminal(type, action, parameter):
+#    if read_secret("escalation","enable_terminal") != 1:
+#        return
+
     term_init()
     esc_fcolor, esc_bcolor, esc_title, esc_message = parameter.split('|')
+#    term_escalation(read_secret("escalation","terminal_lvl"+ESC_LEVEL+"_fcolor"), read_secret("escalation","terminal_lvl"+ESC_LEVEL+"_bcolor"), read_secret("escalation","terminal_lvl"+ESC_LEVEL+"_title"), read_secret("escalation","terminal_lvl"+ESC_LEVEL+"_message"))
     term_escalation(esc_fcolor, esc_bcolor, esc_title, esc_message)
     term_exit()
 
@@ -259,6 +276,7 @@ def check_type(argument):
 	}
 	return switcher.get(argument, "nothing")
 
+conn = sqlite3.connect(DB_FILE)
 cursor = conn.execute(DB_SQL)
 for row in cursor:
 	ESC_TYPE = row[1]
