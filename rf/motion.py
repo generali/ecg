@@ -15,6 +15,8 @@ import time
 import sys
 from datetime import datetime
 import socket
+# ECG library
+import ecglib
 
 ARG_DISPLAY=0
 for arg in sys.argv:
@@ -22,33 +24,6 @@ for arg in sys.argv:
 		ARG_DISPLAY=1
 	if arg == "-fast":
 		varWaitTime=5
-
-def get_hostname():
-	if ARG_DISPLAY == 1:
-		print "Checking hostname..."
-	if socket.gethostname().find('.')>=0:
-		name=socket.gethostname()
-	else:
-		name=socket.gethostbyaddr(socket.gethostname())[0]
-	return name
-
-def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
-	# #######################################################
-	# Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
-	# die Variable, die ebenfalls angegebenist und liefert deren Wert
-	# zurück
-	# #######################################################
-	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
-	if ARG_DISPLAY == 1:
-		print "secret file: %s" % (secret_file)
-	try:
-		config = {}
-		execfile(secret_file, config)
-	except:
-		if ARG_DISPLAY == 1:
-			print "Error import secret file..."
-		pass
-	return config[mysecret]
 
 def MOTION(PIR_PIN):
 	if ARG_DISPLAY == 1:

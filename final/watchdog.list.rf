@@ -1,0 +1,16 @@
+#
+# Watchdog Liste
+#
+# Alle Einträge werden durch das Watchdog-Skript in der Prozessliste gesucht. Konnte ein Script nicht
+# in der Prozessliste gefunden werden, wird dieses wieder gestartet. Idealerweise wird Watchdog durch
+# Cron jede Minute gestartet, so dass ein Ausfall eines Skripts nicht auffällt.
+#
+# - Kommentare mit '#' beginnen
+# - zu beendende Prozesse mit '-' beginnen 
+# - zu startende Prozesse nur mit Namen beginnen
+#
+/home/pi/ecg/system.sh
+/home/pi/ecg/system_online.sh
+/home/pi/ecg/ntp.sh
+/home/pi/ecg/webcollector.py
+/home/pi/ecg/ecg_sensors.py

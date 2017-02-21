@@ -21,6 +21,9 @@ import sys
 import requests
 import ssl
 import socket
+import ecglib
+# ECG library
+import ecglib
 
 # #################################################
 
@@ -34,36 +37,6 @@ for arg in sys.argv:
 	if arg == "-fast":
 		varWaitTime=5
 
-def get_hostname():
-	if ARG_DISPLAY == 1:
-		print "Checking hostname..."
-	if socket.gethostname().find('.')>=0:
-		name=socket.gethostname()
-	else:
-		name=socket.gethostbyaddr(socket.gethostname())[0]
-	return name
-
-def read_secret(secret_name, mysecret, secret_path="./", secret_suffix=".secret"):
-	# #######################################################
-	# Liest Parameter aus der angegebenen Datei (.secret). Ermittelt
-	# die Variable, die ebenfalls angegebenist und liefert deren Wert
-	# zurück
-	# #######################################################
-	secret_file="%s%s%s" % (secret_path, secret_name, secret_suffix)
-	# default value
-	#config[mysecret]="ERROR"
-	if ARG_DISPLAY == 1:
-		print "INFO: secret file: %s" % (secret_file)
-	try:
-		config = {}
-		execfile(secret_file, config)
-		if ARG_DISPLAY == 1:
-			print "INFO: %s=%s" % (mysecret,config[mysecret])
-	except:
-		#if ARG_DISPLAY == 1:
-		print "ERROR: Error import secret file... (missing secret file?)"
-		pass
-	return config[mysecret]
 
 def UpdateStatus(status):
   try:
@@ -88,7 +61,8 @@ def UpdateStatus(status):
 
 # ##################################
 
-SENSOR_QUALIFIER = get_hostname()
+#SENSOR_QUALIFIER = get_hostname()
+SENSOR_QUALIFIER = ecglib.hostname
 if SENSOR_QUALIFIER == "":
 	SENSOR_QUALIFIER=get_secret("hostname","hostname","/home/pi/ecg/")
 

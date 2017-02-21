@@ -1,0 +1,1 @@
+state 0x120006 [DVI DMT (28) RGB full 16:10], 1280x800 @ 60.00Hz, progressive

@@ -5,6 +5,8 @@ import RPi.GPIO as GPIO
 import bluetooth
 import time
 import sys
+# ECG library
+import ecglib
 
 BtnPin = 18
 Rpin   = 11

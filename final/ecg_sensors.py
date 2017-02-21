@@ -469,6 +469,10 @@ if __name__ == '__main__':
     if SELECTED_SENSOR == "bluetooth":
         SENSOR_BLUETOOTH_thread()
 
+    if SELECTED_SENSOR == "escalation":
+	ESCALATION_init()
+
+#ESCALATION_init()
 #    try:
 #        if func != "nothing":
 #            # einzelnen Sensor starten
