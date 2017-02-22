@@ -49,15 +49,19 @@ do
       	if [ $DISPLAY -eq 1 ]; then
       		echo "Reporting online status to  URL: $URL  as  $THIS_SYSTEM.system.online"
             # -o /dev/null -X PUT --insecure
-              	curl -s "$URL" --data '{
+				   echo "curl --insecure -s \"$URL\" --data '{\"'$THIS_SYSTEM.$SENSOR_TYPE'\": \"'$ONLINE'\"}'"
+              	curl -s --insecure -s "$URL" --data '{
                   		"'$THIS_SYSTEM.$SENSOR_TYPE'": "'$ONLINE'"
                 	}'
       	else
-               curl -s -o /dev/null "$URL" --data '{
+               curl -s --insecure -o /dev/null "$URL" --data '{
                		"'$THIS_SYSTEM.$SENSOR_TYPE'": "'$ONLINE'"
              	}'
          fi
       fi
    done
+   if [ $DISPLAY -eq 1 ]; then
+      echo "done...waiting for next probe..."
+   fi
    sleep $SLEEP_LOOP
 done

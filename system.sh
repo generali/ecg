@@ -60,18 +60,30 @@ do
 		if [ -n "$URL" ]; then
 			[[ $DISPLAY_ECHO == 1 ]] && echo "Reporting sensor data to URL: $URL"
 			if [ $DISPLAY_ECHO == 1 ]; then
-		        curl -s "$URL" --data '{
-		        "'$HOSTNAME.system.cpu'": "'$CPU'",
-		        "'$HOSTNAME.system.mem_free'": "'$MEM_FREE'",
-			    "'$HOSTNAME.system.eth0_in'": "'$ETH0_IN'",
-			    "'$HOSTNAME.system.eth0_out'": "'$ETH0_OUT'",
-			    "'$HOSTNAME.system.wlan0_in'": "'$WLAN0_IN'",
-			    "'$HOSTNAME.system.wlan0_out'": "'$WLAN0_OUT'",
-			    "'$HOSTNAME.system.sdcard_free'": "'$SDCARD_FREE'",
-			    "'$HOSTNAME.system.voltage'": "'$RPI_VOLTAGE'"
+				echo "curl -s --insecure \"$URL\" --data '{\"'$HOSTNAME.system.cpu'\": \"'$CPU'\",\"'$HOSTNAME.system.mem_free'\": \"'$MEM_FREE'\",\"'$HOSTNAME.system.eth0_in'\": \"'$ETH0_IN'\",\"'$HOSTNAME.system.eth0_out'\": \"'$ETH0_OUT'\",\"'$HOSTNAME.system.wlan0_in'\": \"'$WLAN0_IN'\",\"'$HOSTNAME.system.wlan0_out'\": \"'$WLAN0_OUT'\",\"'$HOSTNAME.system.sdcard_free'\": \"'$SDCARD_FREE'\",\"'$HOSTNAME.system.voltage'\": \"'$RPI_VOLTAGE'\"}'"
+
+		        curl -s --insecure "$URL" --data '{
+		        "'$HOSTNAME.system.cpu'": "$CPU",
+		        "'$HOSTNAME.system.mem_free'": "$MEM_FREE",
+			    "'$HOSTNAME.system.eth0_in'": "$ETH0_IN",
+			    "'$HOSTNAME.system.eth0_out'": "$ETH0_OUT",
+			    "'$HOSTNAME.system.wlan0_in'": "$WLAN0_IN",
+			    "'$HOSTNAME.system.wlan0_out'": "$WLAN0_OUT",
+			    "'$HOSTNAME.system.sdcard_free'": "$SDCARD_FREE",
+			    "'$HOSTNAME.system.voltage'": "$RPI_VOLTAGE"
 		         }'
+#				 curl -s --insecure "$URL" --data '{
+# 		        "'$HOSTNAME.system.cpu'": "'$CPU'",
+# 		        "'$HOSTNAME.system.mem_free'": "'$MEM_FREE'",
+# 			    "'$HOSTNAME.system.eth0_in'": "'$ETH0_IN'",
+# 			    "'$HOSTNAME.system.eth0_out'": "'$ETH0_OUT'",
+# 			    "'$HOSTNAME.system.wlan0_in'": "'$WLAN0_IN'",
+# 			    "'$HOSTNAME.system.wlan0_out'": "'$WLAN0_OUT'",
+# 			    "'$HOSTNAME.system.sdcard_free'": "'$SDCARD_FREE'",
+# 			    "'$HOSTNAME.system.voltage'": "'$RPI_VOLTAGE'"
+# 		         }'
 			else
-				curl -s -o /dev/null "$URL" --data '{
+				curl -s -o /dev/null --insecure "$URL" --data '{
 		        "'$HOSTNAME.system.cpu'": "'$CPU'",
 		        "'$HOSTNAME.system.mem_free'": "'$MEM_FREE'",
 			    "'$HOSTNAME.system.eth0_in'": "'$ETH0_IN'",
@@ -97,5 +109,8 @@ do
  #        }'
 
 
-        sleep $SLEEP_LOOP
+	if [ $DISPLAY_ECHO -eq 1 ]; then
+		echo "done...waiting for next probe..."
+	fi
+	sleep $SLEEP_LOOP
 done
