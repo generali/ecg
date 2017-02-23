@@ -58,6 +58,13 @@ SELECTED_SENSOR=""
 SENSOR_QUALIFIER=""
 SENSOR_FQN=""
 
+SQL_ESCALATION_LVL1="SELECT CASE WHEN Count(\"Status\")>0 THEN \"ALARM\" ELSE \"OK\" END as \"Status\", \"Quelle\" as \"Quelle\" FROM (SELECT \"Passiv:\" as \"Sensor\", CASE WHEN COUNT(*)>0 THEN \"OK\" ELSE \"ALARM\" END as \"Status\", \"Passiver Sensor\" as \"Quelle\" FROM sensor_data SD, sensor_type ST WHERE (SD.sensor_key=ST.sensor_key AND ST.sensor_active=0 AND ST.escalation_relevant=1) AND ((SELECT s.value FROM settings s WHERE s.key = \"lvl1_time_escalation_passive\") - (strftime('%s',datetime('now','localtime')) -  strftime('%s',SD.exectime))>0) UNION ALL SELECT \"Aktiv:\" as \"Sensor\", CASE WHEN COUNT(*)>0 THEN \"ALARM\" ELSE \"OK\" END as \"Status\", \"Aktiver Sensor\" as \"Quelle\" FROM sensor_data SD, sensor_type ST WHERE (SD.sensor_key=ST.sensor_key AND ST.sensor_active=1 AND ST.escalation_relevant=1) AND ((SELECT s.value FROM settings s WHERE s.key = \"lvl1_time_escalation_active\") - (strftime('%s',datetime('now','localtime')) - strftime('%s',SD.exectime)))>0) WHERE \"Status\" = \"ALARM\""
+SQL_ESCALATION_LVL2="SELECT CASE WHEN Count(\"Status\")>0 THEN \"ALARM\" ELSE \"OK\" END as \"Status\", \"Quelle\" as \"Quelle\" FROM (SELECT \"Passiv:\" as \"Sensor\", CASE WHEN COUNT(*)>0 THEN \"OK\" ELSE \"ALARM\" END as \"Status\", \"Passiver Sensor\" as \"Quelle\" FROM sensor_data SD, sensor_type ST WHERE (SD.sensor_key=ST.sensor_key AND ST.sensor_active=0 AND ST.escalation_relevant=1) AND ((SELECT s.value FROM settings s WHERE s.key = \"lvl2_time_escalation_passive\") - (strftime('%s',datetime('now','localtime')) -  strftime('%s',SD.exectime))>0) UNION ALL SELECT \"Aktiv:\" as \"Sensor\", CASE WHEN COUNT(*)>0 THEN \"ALARM\" ELSE \"OK\" END as \"Status\", \"Aktiver Sensor\" as \"Quelle\" FROM sensor_data SD, sensor_type ST WHERE (SD.sensor_key=ST.sensor_key AND ST.sensor_active=1 AND ST.escalation_relevant=1) AND ((SELECT s.value FROM settings s WHERE s.key = \"lvl2_time_escalation_active\") - (strftime('%s',datetime('now','localtime')) - strftime('%s',SD.exectime)))>0) WHERE \"Status\" = \"ALARM\""
+SQL_ESCALATION_LVL3="SELECT CASE WHEN Count(\"Status\")>0 THEN \"ALARM\" ELSE \"OK\" END as \"Status\", \"Quelle\" as \"Quelle\" FROM (SELECT \"Passiv:\" as \"Sensor\", CASE WHEN COUNT(*)>0 THEN \"OK\" ELSE \"ALARM\" END as \"Status\", \"Passiver Sensor\" as \"Quelle\" FROM sensor_data SD, sensor_type ST WHERE (SD.sensor_key=ST.sensor_key AND ST.sensor_active=0 AND ST.escalation_relevant=1) AND ((SELECT s.value FROM settings s WHERE s.key = \"lvl3_time_escalation_passive\") - (strftime('%s',datetime('now','localtime')) -  strftime('%s',SD.exectime))>0) UNION ALL SELECT \"Aktiv:\" as \"Sensor\", CASE WHEN COUNT(*)>0 THEN \"ALARM\" ELSE \"OK\" END as \"Status\", \"Aktiver Sensor\" as \"Quelle\" FROM sensor_data SD, sensor_type ST WHERE (SD.sensor_key=ST.sensor_key AND ST.sensor_active=1 AND ST.escalation_relevant=1) AND ((SELECT s.value FROM settings s WHERE s.key = \"lvl3_time_escalation_active\") - (strftime('%s',datetime('now','localtime')) - strftime('%s',SD.exectime)))>0) WHERE \"Status\" = \"ALARM\""
+
+
+
+
 # ############################################################################################
 # GLOBAL PROCEDCURES
 def show_banner():
@@ -109,10 +116,12 @@ def update_database(SENSOR_FQN, SENSOR_VALUE):
 
         try:
             for url_counter in range(1, 9):
-                logger.info("Searching webcollector url %s" % str(url_counter))
+                logger.debug("Searching webcollector url %s" % str(url_counter))
                 url = read_config("COLLECTOR","url%s" % str(url_counter))
                 if url != "":
-                    logger.info("JSON URL=%s" % url)
+                    logger.debug("Webcollector JSON URL=%s" % url)
+                    description=read_config("COLLECTOR","description%s" % str(url_counter))
+                    logger.info("Sending data to webcollector '%s'" % (description))
                     req = urllib2.Request(url)
                     req.add_header('Content-Type', 'application/json')
                     response = urllib2.urlopen(req, json.dumps(data), context=context)
@@ -183,7 +192,7 @@ def getADC(channel=0):
 def ESCALATION_SEND_ifttt(type, action, parameter):
     IFTTT_URL = read_config("IFTTT", "url")
 
-    logger.info("Escalation: send notification")
+    logger.info("Escalation: send push notification")
 
     try:
         context = ssl._create_unverified_context()
@@ -249,6 +258,19 @@ def ESCALATION_SEND_http(type, action, parameter):
     except:
         logger.error("Escalation HTTP request failed")
 
+def ESCALATION_SEND_screen(type, action, parameter):
+    logger.info("Escalation: send screen notification")
+
+    print "###################################################################"
+    print "###################################################################"
+    print "##########"
+    print "##########   %s" % action
+    print "##########"
+    print "##########   %s" % parameter
+    print "##########"
+    print "###################################################################"
+    print "###################################################################"
+
 # ###########################################################################
 # ###########################################################################
 # ###########################################################################
@@ -264,34 +286,73 @@ def ESCALATION_checktype(argument):
 		"email": "ESCALATION_SEND_email",
 		"http": "ESCALATION_SEND_http",
 		"gpio": "ESCALATION_SEND_gpio",
-#		"buzzer": "ESCALATION_SEND_buzzer",
+		"buzzer_led": "SENSOR_BUZZER_LED_init",
+		"screen": "ESCALATION_SEND_screen",
 #        "terminal": "ESCALATION_SEND_terminal",
 	}
 	return switcher.get(argument, "nothing")
 
 def ESCALATION_init(arg):
-
-    conn = sqlite3.connect(read_config("DATABASE","file"))
-    DB_SQL= " SELECT * FROM escalation_handling WHERE level = %s" % (read_config("ESCALATION","level"))
-    cursor = conn.execute(DB_SQL)
-    for row in cursor:
-    	ESC_TYPE = row[1]
-    	ESC_ACTION = row[2]
-    	ESC_PARAMETER = row[3]
-
-    	logger.debug("ACTION=%s" % (ESC_ACTION))
-
-    	method=ESCALATION_checktype(ESC_TYPE) + "(ESC_TYPE, ESC_ACTION, ESC_PARAMETER)"
-    	eval(method)
-
-    logger.debug("Operation done successfully")
-    conn.close()
-
     this_thread = threading.currentThread()
     while getattr(this_thread, "do_run", True):
-        time.sleep(1)
+        logger.info("Checking escalation level...")
+        # reset variables
+        ESC_TYPE=""
+        ESC_ACTION=""
+        ESC_PARAMETER=""
+        # get escalation level
+        ESC_LEVEL=ESCALATION_TEST_get(arg)
+    #    ESC_LEVEL=read_config("ESCALATION","level")
 
+        logger.info("Escalation level %s reached!" % ESC_LEVEL)
+        # init notifivcations channels for escalation level
+        for esc_counter in range(1, 5):
+            try:
+                ESC_TYPE=read_config("ESCALATION%s" % (ESC_LEVEL),"TYPE%s" % (esc_counter))
+                if ESC_TYPE != "":
+                    ESC_ACTION = read_config("ESCALATION%s" % (ESC_LEVEL),"RECIPIENT%s" % (esc_counter))
+                    ESC_PARAMETER = read_config("ESCALATION%s" % (ESC_LEVEL),"MESSAGE%s" % (esc_counter))
 
+                    method=ESCALATION_checktype(ESC_TYPE) + "(ESC_TYPE, ESC_ACTION, ESC_PARAMETER)"
+                    eval(method)
+            except:
+                logstring="Notification failed by misformated escalation parameters (%s,%s,%s,%s)" % (ESC_LEVEL,ESC_TYPE, ESC_ACTION, ESC_PARAMETER)
+                logger.error(logstring)
+
+#        logger.debug("Operation done successfully")
+
+        recheck_frequency=read_config("ESCALATION","frequency","int")
+        logger.info("Rechecking escalation in %s seconds" % str(recheck_frequency))
+        time.sleep(recheck_frequency)
+
+def ESCALATION_TEST_get(arg):
+    SET_ESCALATION=0
+    conn = sqlite3.connect(read_config("DATABASE","file"))
+
+    cursor = conn.execute(SQL_ESCALATION_LVL3)
+    result = cursor.fetchone()
+    if result[0] == "ALARM":
+        logger.debug("Escalation level 3 detected!")
+        SET_ESCALATION=3
+    else:
+        cursor = conn.execute(SQL_ESCALATION_LVL2)
+        result = cursor.fetchone()
+        if result[0] == "ALARM":
+            logger.debug("Escalation level 2 detected!")
+            SET_ESCALATION =2
+        else:
+            cursor = conn.execute(SQL_ESCALATION_LVL1)
+            result = cursor.fetchone()
+            if result[0] == "ALARM":
+                logger.debug("Escalation level 1 detected!")
+                SET_ESCALATION=1
+            else:
+                logger.debug("No escalation level detected. Everything fine!")
+                SET_ESCALATION=0
+
+    logger.debug("SET_ESCALATION=%s" % SET_ESCALATION)
+    conn.close()
+    return SET_ESCALATION
 
 # ############################################################################################
 # ############################################################################################
@@ -318,7 +379,7 @@ def SENSOR_MOTION_action(PIR_PIN):
 
 def SENSOR_MOTION_init(arg):
     GPIO.setmode(GPIO.BCM)
-    SENSOR_MOTION_BCM_PIN1=int(read_config("MOTION","motion_bcm_pin"))
+    SENSOR_MOTION_BCM_PIN1=int(read_config("MOTION","bcm_pin"))
     GPIO.setup(SENSOR_MOTION_BCM_PIN1, GPIO.IN)
     logger.info("PIR Module Test (CTRL+C to exit)")
     logger.info("")
@@ -330,13 +391,6 @@ def SENSOR_MOTION_init(arg):
     this_thread = threading.currentThread()
     while getattr(this_thread, "do_run", True):
         time.sleep(1)
-
-#    try:
-#        GPIO.add_event_detect(SENSOR_MOTION_BCM_PIN1, GPIO.RISING, callback=SENSOR_MOTION_action)
-#        while 1:
-#            time.sleep(1)
-#    except KeyboardInterrupt:
-#        GPIO.cleanup()
 
 # ############################################################################################
 # BLUETOOTH
@@ -394,6 +448,31 @@ def SENSOR_LIGHT_init(arg):
 
 
 # ############################################################################################
+# MOTION
+def SENSOR_PRESSUREMAT_action(PIR_PIN):
+    logger.info(time.strftime("%b %d %Y %H:%M:%S", time.gmtime())+ " - Pressuremat Detected!")
+
+    SENSOR_FQN = get_hostname() + "." + SENSOR_PRESSUREMAT_NAME
+    update_database(SENSOR_FQN, 1)
+    time.sleep(1)
+
+def SENSOR_PRESSUREMAT_init(arg):
+    GPIO.setmode(GPIO.BCM)
+    SENSOR_PRESSUREMAT_BCM_PIN1=int(read_config("PRESSUREMAT","bcm_pin"))
+    GPIO.setup(SENSOR_MOTION_BCM_PIN1, GPIO.IN)
+    logger.info("PIR Module Test (CTRL+C to exit)")
+    logger.info("")
+    logger.info("GPIO 25 (Pin 22) -> Signal Pressuremat")
+    logger.info("GRND    (Pin 6) -> Pressuremat Sensor GRND")
+
+    GPIO.setup(SENSOR_PRESSUREMAT_BCM_PIN1, GPIO.IN, pull_up_down=GPIO.PUD_UP)    # Set BtnPin's mode is input, and pull up to high level(3.3V)
+    GPIO.add_event_detect(SENSOR_PRESSUREMAT_BCM_PIN1, GPIO.BOTH, callback=SENSOR_PRESSUREMAT_action, bouncetime=200)
+
+    this_thread = threading.currentThread()
+    while getattr(this_thread, "do_run", True):
+        time.sleep(1)
+
+# ############################################################################################
 # Dashbutton
 def SENSOR_DASHBUTTON_init():
     global ARG_DISPLAY
@@ -423,8 +502,8 @@ def SENSOR_DASHBUTTON_action2(mac) :
 
 # ############################################################################################
 # OUTPUT SENSORS: BUZZER
-def SENSOR_BUZZER_LED_init(mode="both"):
-    for x in range(0, 10):
+def SENSOR_BUZZER_LED_init(type="", mode="both", parameter=10):
+    for x in range(0, int(parameter)):
         if (mode=="led") or (mode=="both"):
             GPIO.output(read_config("GPIO","LED_PWR","int"), GPIO.HIGH)
         if (mode=="buzzer") or (mode=="both"):
@@ -469,6 +548,17 @@ def SENSOR_LIGHT_thread():
         thread_light.do_run=False
         thread_light.join()
 
+def SENSOR_PRESSUREMAT_thread():
+    try:
+        thread_pressuremat = threading.Thread(target=SENSOR_PRESSUREMAT_init, args=("task",), kwargs={})
+        thread_pressuremat.start()
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        thread_pressuremat.do_run=False
+        thread_pressuremat.join()
+
+
 def ESCALATION_thread():
     try:
         thread_escalation = threading.Thread(target=ESCALATION_init, args=("task",), kwargs={})
@@ -478,6 +568,16 @@ def ESCALATION_thread():
     except KeyboardInterrupt:
         thread_escalation.do_run=False
         thread_escalation.join()
+
+def ESCALATION_TEST_thread():
+    try:
+        thread_test_escalation = threading.Thread(target=ESCALATION_TEST_init, args=("task",), kwargs={})
+        thread_test_escalation.start()
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        thread_test_escalation.do_run=False
+        thread_test_escalation.join()
 
 
 def nothing():
@@ -498,14 +598,17 @@ def nothing():
 # ############################################################################################
 
 SENSOR_MOTION_NAME = read_config("MOTION","name")
-SENSOR_MOTION_BCM_PIN1=27
-PIR_PIN_BCM = 27
+#DELETE#SENSOR_MOTION_BCM_PIN1=27
+SENSOR_MOTION_BCM_PIN1=int(read_config("MOTION","bcm_pin"))
+#DELETE#PIR_PIN_BCM = 27
 
 SENSOR_BLUETOOTH_NAME = read_config("BLUETOOTH","name")
 SENSOR_BLUETOOTH_CHECK = read_config("BLUETOOTH","mac")
 SENSOR_BLUETOOTH_WAIT = 30
 
 SENSOR_LIGHT_NAME = read_config("LIGHT","name")
+
+SENSOR_PRESSUREMAT_NAME = read_config("PRESSUREMAT","name")
 
 SENSOR_DASHBUTTON_NAME = read_config("DASHBUTTON","name")
 SENSOR_DASHBUTTON_CHECK = read_config("DASHBUTTON","mac")
@@ -553,9 +656,10 @@ if __name__ == '__main__':
     APP_NAME = read_config("GLOBAL","app_name")
     APP_VERSION = read_config("GLOBAL", "app_version")
 
+    APP_LOGFORMAT=read_config("GLOBAL","logformat")
     # ############################################################################################
     # LOGGING FACILITY
-    logging.basicConfig()
+    logging.basicConfig(format=APP_LOGFORMAT)
     logger = logging.getLogger(APP_NAME)
     level = logging.getLevelName(read_config("LOG","level"))
     logger.setLevel(level)
@@ -588,12 +692,17 @@ if __name__ == '__main__':
     if SELECTED_SENSOR == "light":
         SENSOR_LIGHT_thread()
 
+    if SELECTED_SENSOR == "pressuremat":
+        SENSOR_PRESSUREMAT_thread()
+
     if SELECTED_SENSOR == "buzzer":
         SENSOR_BUZZER_LED_init()
 
     if SELECTED_SENSOR == "escalation":
    	    ESCALATION_thread()
 
+    if SELECTED_SENSOR == "escalation_test":
+   	    ESCALATION_TEST_thread()
 
 GPIO.cleanup()
 
